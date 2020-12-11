@@ -17,6 +17,8 @@ import EditRealEstate from './pages/EditRealEstate';
 import AddComplex from './pages/AddComplex';
 import EditComplex from './pages/EditComplex';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Member from './pages/Member';
+import AddAdmin from './pages/AddAdmin';
 
 function App() {
   return (
@@ -38,6 +40,12 @@ function App() {
         </Route>
         <Route path="/developers/:id/:realEstedId/edit">
           <EditComplex />
+        </Route>
+        <Route path="/developers/:id/:realEstedId/members">
+          <Member />
+        </Route>
+        <Route path="/developers/:id/:realEstedId/addadmin">
+          <AddAdmin />
         </Route>
         <Route path="/developers/:id/:realEstedId">
           <Complex />

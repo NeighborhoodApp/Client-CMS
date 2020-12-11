@@ -1,10 +1,16 @@
 import React from 'react';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
 
-export default function Developer() {
+export default function Member() {
   const history = useHistory();
   const { url } = useRouteMatch();
+  const arrRoute = url.split('/');
+  arrRoute.pop();
+  const back = arrRoute.join('/');
+
+  console.log(back);
 
   const hanldeClick = (path) => {
     history.push(path);
@@ -17,29 +23,20 @@ export default function Developer() {
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
+
   const dataPage = {
-    count: '10 Developer',
+    count: '10 Admin',
     icon: icon(),
-    pageTitle: 'Developer',
-    btnTitle: 'Add Developer',
-    btnAction: '/developers/add',
+    pageTitle: 'Admin Complex',
+    btnTitle: 'Add Admin',
+    btnAction: back + '/addadmin',
   };
-  
+
   return (
     <>
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />
-          {/* <div className="flex justify-between">
-            <h1>Develovers</h1>
-            <button
-              onClick={() => hanldeClick('/developers/add')}
-              type="submit"
-              className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-            >
-              <span>Add Developer</span>
-            </button>
-          </div> */}
         </div>
       </header>
       <main>
@@ -56,25 +53,31 @@ export default function Developer() {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Name
+                            Full Name
                           </th>
                           <th
+                            address
+                            email
+                            password
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Address
+                            Adress
+                          </th>
+                          <th
+                            address
+                            email
+                            password
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            Email
                           </th>
                           <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
                             Status
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Role
                           </th>
                           <th
                             scope="col"
@@ -88,47 +91,38 @@ export default function Developer() {
                         <tr>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex items-center">
-                              <div className="flex-shrink-0 h-10 w-10">
-                                <img
-                                  className="h-10 w-10 rounded-full"
-                                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=4&amp;w=256&amp;h=256&amp;q=60"
-                                  alt=""
-                                />
-                              </div>
                               <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">Jane Cooper</div>
-                                <div className="text-sm text-gray-500">jane.cooper@example.com</div>
+                                <div className="text-sm font-medium text-gray-900">Citra Land Real Estae</div>
                               </div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">Regional Paradigm Technician</div>
+                            <div className="text-sm text-gray-900">Jl. Pulo Gadung, No 12, Jakarta</div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">admin@mail.com</div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                             <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                               Active
                             </span>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Owner</td>
 
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex w-auto justify-start">
                               <button
-                                onClick={() => hanldeClick('developers/32323/edit')}
+                                onClick={() => hanldeClick(url + '/edit')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
                               >
                                 <span>Edit</span>
                               </button>
-                              <button
-                                onClick={() => hanldeClick('developers/32323')}
+                              {/* <button
+                                onClick={() => hanldeClick(url + '/members')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
                               >
-                                <span>Detail</span>
-                              </button>
-                              <button
-                                onClick={() => hanldeDelete('id2222')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
-                              >
+                                <span>See Member</span>
+                              </button> */}
+                              <button className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300">
                                 <span>Delete</span>
                               </button>
                             </div>

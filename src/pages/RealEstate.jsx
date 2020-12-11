@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import Heading from '../components/heading';
 
 const id = '121211';
 export default function RealEstate() {
@@ -13,22 +14,24 @@ export default function RealEstate() {
   const hanldeDelete = (id) => {
     console.log('delete' + id);
   };
+ 
+  const icon = () => {
+    return <i className="fas fa-building "></i>;
+  };
+
+  const dataPage = {
+    count: '10 Real Estate',
+    icon: icon(),
+    pageTitle: 'Real Estate',
+    btnTitle: 'Add Real Estate',
+    btnAction: url + `/addrealestate`,
+  };
 
   return (
     <>
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          {/* <Heading data={pageMovies} addForm={addForm} /> */}
-          <div className="flex justify-between">
-            <h1>Real Estate: Develover Name</h1>
-            <button
-              onClick={() => hanldeClick(url + `/addrealestate`)}
-              type="submit"
-              className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-            >
-              <span>Add Real Ested</span>
-            </button>
-          </div>
+          <Heading data={dataPage} />
         </div>
       </header>
       <main>
@@ -108,7 +111,7 @@ export default function RealEstate() {
                                 <span>Edit</span>
                               </button>
                               <button
-                                onClick={() => hanldeClick((url + '/1212122'))}
+                                onClick={() => hanldeClick(url + '/1212122')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
                               >
                                 <span>Detail</span>
