@@ -13,6 +13,7 @@ import Complex from './pages/Complex';
 import AddDeveloper from './pages/AddDeveloper';
 import EditDeveloper from './pages/EditDeveloper';
 import AddRealEstate from './pages/AddRealEstate';
+import EditRealEstate from './pages/EditRealEstate';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
       <Navbar />
       <Switch>
         <Route exact path="/">
-          <Developer />
+          {/* <Developer /> */}
+          <h1>Welcome</h1>
         </Route>
         <Route exact path="/developers">
           <Developer />
@@ -33,6 +35,9 @@ function App() {
         </Route>
         <Route exact path="/developers/:id/addrealestate">
           <AddRealEstate />
+        </Route>
+        <Route exact path="/developers/:id/editrealestate">
+          <EditRealEstate />
         </Route>
         <Route exact path="/developers/:id/:realEstedId">
           <Complex />
