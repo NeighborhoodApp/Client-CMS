@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const defaultValue = {
   name: '',
   email: '',
   address: '',
 };
-export default function Form(props) {
+export default function FormDeveloper(props) {
   const { formTitle } = props.data;
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
+  const history = useHistory();
+
   useEffect(() => {
     setPayload(defaultValue);
   }, []);
 
+  const hanldeClick = (path) => {
+    history.push(path);
+  };
+
   const submitForm = (e) => {
     e.preventDefault();
+    console.log(payload);
   };
 
   const handleForm = (e) => {
@@ -46,12 +54,12 @@ export default function Form(props) {
                 <input
                   id="name"
                   name="name"
-                  autoComplete="off"
                   tabIndex={0}
                   value={payload.title}
                   type="text"
+                  autoComplete="off"
                   onChange={(e) => handleForm(e)}
-                  placeholder="Title"
+                  placeholder="Fullname"
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />
@@ -60,7 +68,30 @@ export default function Form(props) {
             <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
-                  <label htmlFor="Address" className="bg-white text-gray-600 px-1">
+                  <label htmlFor="email" className="bg-white text-gray-600 px-1">
+                    Email *
+                  </label>
+                </p>
+              </div>
+              <p>
+                <input
+                  id="email"
+                  name="email"
+                  autoComplete="off"
+                  tabIndex={0}
+                  value={payload.title}
+                  type="email"
+                  onChange={(e) => handleForm(e)}
+                  placeholder="Email"
+                  className="py-1 px-1 outline-none block h-full w-full"
+                  required
+                />
+              </p>
+            </div>
+            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+                <p>
+                  <label htmlFor="address" className="bg-white text-gray-600 px-1">
                     Address *
                   </label>
                 </p>
@@ -88,6 +119,14 @@ export default function Form(props) {
             >
               {loadingAdd || loadingEdit ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
               <span>Save</span>
+            </button>
+            <button
+              onClick={() => hanldeClick('/developers')}
+              type="reset"
+              disabled={loadingEdit || loadingAdd}
+              className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"
+            >
+              <span>Cancel</span>
             </button>
           </div>
         </div>

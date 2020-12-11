@@ -10,6 +10,8 @@ import RealEstate from './pages/RealEstate';
 import Login from './pages/Login';
 import Navbar from './components/navbar';
 import Complex from './pages/Complex';
+import AddDeveloper from './pages/AddDeveloper';
+import EditDeveloper from './pages/EditDeveloper';
 
 function App() {
   return (
@@ -22,11 +24,17 @@ function App() {
         <Route exact path="/developers">
           <Developer />
         </Route>
-        <Route exact path="/developers/:id">
-          <RealEstate />
+        <Route exact path="/developers/add">
+          <AddDeveloper />
+        </Route>
+        <Route exact path="/developers/:id/edit">
+          <EditDeveloper />
         </Route>
         <Route exact path="/developers/:id/:realEstedId">
           <Complex />
+        </Route>
+        <Route exact path="/developers/:id">
+          <RealEstate />
         </Route>
         <Route exact path="/login">
           <Login />
