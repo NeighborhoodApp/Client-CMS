@@ -7,9 +7,10 @@ const INIT = {
 };
 
 function reducer(state = INIT, action) {
+  console.log(action);
   switch (action.type) {
     case 'SET_DEVELOPER':
-      return { ...state, movies: action.payload };
+      return { ...state, developers: action.payload.allDevelopers };
     case 'SET_DEVELOPER_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_DEVELOPER_ERROR':

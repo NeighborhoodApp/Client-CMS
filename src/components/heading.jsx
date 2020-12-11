@@ -22,8 +22,7 @@ export default function Heading(props) {
             </div>
             {count ? count : ' 0 Items'}
           </div>
-          <div className="mt-2 flex items-center text-sm text-gray-500">
-            {/* <!-- Heroicon name: calendar --> */}
+          {/* <div className="mt-2 flex items-center text-sm text-gray-500">
             <svg
               className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +37,7 @@ export default function Heading(props) {
               />
             </svg>
             Last update
-          </div>
+          </div> */}
         </div>
       </div>
       {props.addForm !== 'null' ? (

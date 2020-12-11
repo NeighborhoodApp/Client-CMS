@@ -14,15 +14,19 @@ export default function fetchData(option) {
     payloadAxios['data'] = option.body;
   }
   if (option.headers) {
-    payloadAxios['headers'] = localStorage.getItem('access_token');
+    payloadAxios['headers'] = {
+      access_token: localStorage.getItem('access_token'),
+    };
   }
 
   return async (dispatch) => {
+    console.log(payloadAxios);
     try {
       dispatch({ type: option.type + '_LOADING', payload: true });
       const { data } = await axios(payloadAxios);
       dispatch({ type: option.type, payload: option.id ? option.id : data });
     } catch (error) {
+      console.log(error);
       dispatch({ type: option.type + '_ERROR', payload: error });
     } finally {
       dispatch({ type: option.type + '_LOADING', payload: false });
