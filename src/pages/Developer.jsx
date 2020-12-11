@@ -21,7 +21,7 @@ export default function Developer() {
           <div className="flex justify-between">
             <h1>Develovers</h1>
             <button
-              onClick={() => hanldeClick(url + '/add')}
+              onClick={() => hanldeClick('/developers/add')}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
