@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+
 const defaultValue = {
   name: '',
-  email: '',
   address: '',
+  coordinate: '',
+  DeveloperId: '',
 };
-export default function FormDeveloper(props) {
+export default function FormRealEstate(props) {
   const { formTitle } = props.data;
+  const { url } = useRouteMatch();
+  const urlIndex = url.split('/');
+  const status = urlIndex.pop();
+  const back = urlIndex.join('/');
+  console.log(back);
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
+  const params = useParams();
 
   useEffect(() => {
+    defaultValue.DeveloperId = params.id;
     setPayload(defaultValue);
   }, []);
 
@@ -46,7 +55,7 @@ export default function FormDeveloper(props) {
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
                   <label htmlFor="name" className="bg-white text-gray-600 px-1">
-                    Fullname *
+                    Real Estate Name *
                   </label>
                 </p>
               </div>
@@ -60,29 +69,6 @@ export default function FormDeveloper(props) {
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
                   placeholder="Fullname"
-                  className="py-1 px-1 outline-none block h-full w-full"
-                  required
-                />
-              </p>
-            </div>
-            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
-              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
-                <p>
-                  <label htmlFor="email" className="bg-white text-gray-600 px-1">
-                    Email *
-                  </label>
-                </p>
-              </div>
-              <p>
-                <input
-                  id="email"
-                  name="email"
-                  autoComplete="off"
-                  tabIndex={0}
-                  value={payload.title}
-                  type="email"
-                  onChange={(e) => handleForm(e)}
-                  placeholder="Email"
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />
@@ -110,6 +96,29 @@ export default function FormDeveloper(props) {
                 ></textarea>
               </p>
             </div>
+            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+                <p>
+                  <label htmlFor="coordinate" className="bg-white text-gray-600 px-1">
+                    Titik Koordinat *
+                  </label>
+                </p>
+              </div>
+              <p>
+                <input
+                  id="coordinate"
+                  name="coordinate"
+                  autoComplete="off"
+                  tabIndex={0}
+                  value={payload.title}
+                  type="text"
+                  onChange={(e) => handleForm(e)}
+                  placeholder="Coordinate"
+                  className="py-1 px-1 outline-none block h-full w-full"
+                  required
+                />
+              </p>
+            </div>
           </div>
           <div className="border-t mt-6 pt-3">
             <button
@@ -121,7 +130,7 @@ export default function FormDeveloper(props) {
               <span>Save</span>
             </button>
             <button
-              onClick={() => hanldeClick('/developers')}
+              onClick={() => hanldeClick(back)}
               type="reset"
               disabled={loadingEdit || loadingAdd}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"

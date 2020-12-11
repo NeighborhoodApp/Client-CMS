@@ -12,6 +12,7 @@ import Navbar from './components/navbar';
 import Complex from './pages/Complex';
 import AddDeveloper from './pages/AddDeveloper';
 import EditDeveloper from './pages/EditDeveloper';
+import AddRealEstate from './pages/AddRealEstate';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route exact path="/developers/:id/edit">
           <EditDeveloper />
+        </Route>
+        <Route exact path="/developers/:id/addrealestate">
+          <AddRealEstate />
         </Route>
         <Route exact path="/developers/:id/:realEstedId">
           <Complex />

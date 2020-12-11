@@ -1,12 +1,15 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 
+const id = '121211';
 export default function RealEstate() {
   const history = useHistory();
+  const { path, params, url } = useRouteMatch();
 
   const hanldeClick = (path) => {
-    history.push(path);
+    history.push(path, { from: url });
   };
+
   const hanldeDelete = (id) => {
     console.log('delete' + id);
   };
@@ -18,6 +21,7 @@ export default function RealEstate() {
           <div className="flex justify-between">
             <h1>Real Estate: Develover Name</h1>
             <button
+              onClick={() => hanldeClick(`/developers/${id}/addrealestate`)}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
