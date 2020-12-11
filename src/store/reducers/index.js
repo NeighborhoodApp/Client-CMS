@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import reducerFilm from './Reducer';
+import reducerDeveloper from './reducerDeveloper';
 
 export default combineReducers({
-  reducerFilm
+  reducerDeveloper
 })

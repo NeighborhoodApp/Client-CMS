@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { axios } from '../config/Axios';
 import { useHistory } from 'react-router-dom';
+import errorHandler from '../helpers/errorHandler';
+import saveUserInfo from '../helpers/userLocals';
 
 export default function Login() {
   const [payload, setPayload] = useState({ email: '', password: '' });
@@ -8,7 +10,8 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(payload);
+    // console.log(payload);
+    prosesLogin(payload);
   };
 
   const handleChange = (e) => {
@@ -23,16 +26,19 @@ export default function Login() {
   const prosesLogin = async (payload) => {
     try {
       const { data } = await axios({
-        url: 'users',
+        url: 'users/login-cms',
         method: 'POST',
         data: payload,
       });
-      console.log(data);
+
       if (data) {
-        history.push('/');
+        if (saveUserInfo(data)) {
+         history.push('/');
+        }
       }
     } catch (error) {
-      console.log(error);
+      const msg = errorHandler(error);
+      console.log(msg)
     }
   };
 

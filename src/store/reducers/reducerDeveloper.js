@@ -1,22 +1,22 @@
 const INIT = {
-  movies: [],
+  developers: [],
   loading: true,
   error: null,
   filter: [],
-  search: false
-}
+  search: false,
+};
 
 function reducer(state = INIT, action) {
   switch (action.type) {
-    case 'SET_MOVIE':
-      return { ...state, movies: action.payload };  
-    case 'SET_MOVIE_LOADING':
+    case 'SET_DEVELOPER':
+      return { ...state, movies: action.payload };
+    case 'SET_DEVELOPER_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_MOVIE_ERROR':
+    case 'SET_DEVELOPER_ERROR':
       return { ...state, error: action.payload };
-    case 'SET_MOVIE_FILTER':
+    case 'SET_DEVELOPER_FILTER':
       return { ...state, filter: action.payload };
-    case 'SET_FILM_SEARCH':
+    case 'SET_DEVELOPER_SEARCH':
       return { ...state, search: action.payload };
     default:
       return state;
