@@ -12,6 +12,7 @@ export default function FormDeveloper(props) {
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
 
+  console.log('props', props);
   useEffect(() => {
     setPayload(defaultValue);
   }, []);

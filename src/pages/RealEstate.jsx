@@ -13,6 +13,7 @@ export default function RealEstate() {
   const hanldeDelete = (id) => {
     console.log('delete' + id);
   };
+
   return (
     <>
       <header className="bg-white shadow z-50">
@@ -21,7 +22,7 @@ export default function RealEstate() {
           <div className="flex justify-between">
             <h1>Real Estate: Develover Name</h1>
             <button
-              onClick={() => hanldeClick(`/developers/${id}/addrealestate`)}
+              onClick={() => hanldeClick(url + `/addrealestate`)}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
@@ -101,21 +102,19 @@ export default function RealEstate() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex w-auto justify-start">
                               <button
-                                onClick={() => hanldeClick('/developers/612821/editrealestate')}
-                                type="submit"
+                                onClick={() => hanldeClick(url + '/editrealestate')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
                               >
                                 <span>Edit</span>
                               </button>
                               <button
-                                onClick={() => hanldeClick('/developers/612821/1212122')}
-                                type="submit"
+                                onClick={() => hanldeClick((url + '/1212122'))}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
                               >
                                 <span>Detail</span>
                               </button>
                               <button
-                                type="submit"
+                                onClick={() => hanldeDelete('id')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
                               >
                                 <span>Delete</span>

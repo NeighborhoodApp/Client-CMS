@@ -3,17 +3,16 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 
 const defaultValue = {
   name: '',
-  address: '',
-  coordinate: '',
-  DeveloperId: '',
+  RealEstateId: '',
 };
-export default function FormRealEstate(props) {
+export default function FormComplex(props) {
   const { formTitle } = props.data;
   const { url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
   const back = urlIndex.join('/');
   console.log(back);
+
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
@@ -21,7 +20,7 @@ export default function FormRealEstate(props) {
   const params = useParams();
 
   useEffect(() => {
-    defaultValue.DeveloperId = params.id;
+    defaultValue.RealEstateId = params.realEstedId;
     setPayload(defaultValue);
   }, []);
 
@@ -55,7 +54,7 @@ export default function FormRealEstate(props) {
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
                   <label htmlFor="name" className="bg-white text-gray-600 px-1">
-                    Real Estate Name *
+                    Complex Name *
                   </label>
                 </p>
               </div>
@@ -68,52 +67,7 @@ export default function FormRealEstate(props) {
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
-                  placeholder="REal Estate Name"
-                  className="py-1 px-1 outline-none block h-full w-full"
-                  required
-                />
-              </p>
-            </div>
-            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
-              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
-                <p>
-                  <label htmlFor="address" className="bg-white text-gray-600 px-1">
-                    Address *
-                  </label>
-                </p>
-              </div>
-              <p>
-                <textarea
-                  id="address"
-                  name="address"
-                  autoComplete="off"
-                  value={payload.address}
-                  tabIndex={0}
-                  onChange={(e) => handleForm(e)}
-                  className="py-1 px-1 outline-none block h-full w-full"
-                  required
-                  placeholder="Address"
-                ></textarea>
-              </p>
-            </div>
-            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
-              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
-                <p>
-                  <label htmlFor="coordinate" className="bg-white text-gray-600 px-1">
-                    Titik Koordinat *
-                  </label>
-                </p>
-              </div>
-              <p>
-                <input
-                  id="coordinate"
-                  name="coordinate"
-                  autoComplete="off"
-                  tabIndex={0}
-                  value={payload.title}
-                  type="text"
-                  onChange={(e) => handleForm(e)}
-                  placeholder="Coordinate"
+                  placeholder="Complex Name"
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />

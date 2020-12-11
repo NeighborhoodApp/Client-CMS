@@ -1,6 +1,20 @@
 import React from 'react';
+import { useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Complex() {
+  const history = useHistory();
+  const { url } = useRouteMatch();
+  console.log(url);
+
+  const hanldeClick = (path) => {
+    history.push(path);
+  };
+
+  const hanldeDelete = (id) => {
+    console.log('delete' + id);
+  };
+  
   return (
     <>
       <header className="bg-white shadow z-50">
@@ -9,6 +23,7 @@ export default function Complex() {
           <div className="flex justify-between">
             <h1>Komplex: Real Estate Name</h1>
             <button
+              onClick={() => hanldeClick(url + '/add')}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
@@ -75,16 +90,17 @@ export default function Complex() {
                             <div className="flex w-auto justify-start">
                               <button
                                 type="submit"
+                                onClick={() => hanldeClick(url + '/edit')}
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
                               >
                                 <span>Edit</span>
                               </button>
-                              <button
+                              {/* <button
                                 type="submit"
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
                               >
                                 <span>Detail</span>
-                              </button>
+                              </button> */}
                               <button
                                 type="submit"
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"

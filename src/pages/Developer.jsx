@@ -1,15 +1,18 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 export default function Developer() {
   const history = useHistory();
+  const { url } = useRouteMatch();
 
   const hanldeClick = (path) => {
     history.push(path);
   };
+
   const hanldeDelete = (id) => {
     console.log('delete' + id);
   };
+  
   return (
     <>
       <header className="bg-white shadow z-50">
@@ -18,7 +21,7 @@ export default function Developer() {
           <div className="flex justify-between">
             <h1>Develovers</h1>
             <button
-              onClick={() => hanldeClick('/developers/add')}
+              onClick={() => hanldeClick(url + '/add')}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
@@ -99,14 +102,14 @@ export default function Developer() {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex w-auto justify-start">
                               <button
-                                onClick={() => hanldeClick('/developers/32323/edit')}
+                                onClick={() => hanldeClick(url + '/32323/edit')}
                                 type="submit"
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
                               >
                                 <span>Edit</span>
                               </button>
                               <button
-                                onClick={() => hanldeClick('/developers/32323')}
+                                onClick={() => hanldeClick(url + '/32323')}
                                 type="submit"
                                 className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
                               >
