@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function BodyDevEstates(props) {
-  const { RealEstate, devName } = props;
+  const { RealEstate, devName, number } = props;
   const history = useHistory();
   const { url } = useRouteMatch();
 
@@ -18,11 +18,12 @@ export default function BodyDevEstates(props) {
   return (
     <>
       <tr>
+        <td className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <div className="text-sm font-medium text-gray-900">{number}</div>
+        </td>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex items-center">
-            <div className="ml-4">
-              <div className="text-sm font-medium text-gray-900">{RealEstate.name}</div>
-            </div>
+            <div className="text-sm font-medium text-gray-900">{RealEstate.name}</div>
           </div>
         </td>
         <td className="px-6 py-4 whitespace-nowrap">

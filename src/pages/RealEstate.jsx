@@ -8,9 +8,10 @@ import fetchData from '../helpers/fetchData';
 export default function RealEstate(props) {
   const { params, url } = useRouteMatch();
   const id = params.id || props.id;
-  
+  const apiUrl = id ? `developers/${id}` : `real-estates`;
+
   const dispatch = useDispatch();
-  const parameter = { url: `developers/${id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
+  const parameter = { url: apiUrl, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
   // console.log(params);
   useEffect(() => {
     dispatch(fetchData(parameter));
@@ -22,8 +23,12 @@ export default function RealEstate(props) {
     return <i className="fas fa-building "></i>;
   };
 
+  console.log(dev_estates);
+
+  const realEstates = id ? dev_estates.RealEstates : dev_estates;
+
   const dataPage = {
-    count: (dev_estates ? dev_estates.RealEstates.length : 0) + ' Real Estate',
+    count: (realEstates ? realEstates.length : 0) + ' Real Estate',
     icon: icon(),
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
@@ -43,10 +48,16 @@ export default function RealEstate(props) {
             <div className="flex flex-col">
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                  <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                  <div className="h-96 shadow overflow border-b border-gray-200 sm:rounded-lg">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
+                          <th
+                            scope="col"
+                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                          >
+                            #
+                          </th>
                           <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -87,8 +98,15 @@ export default function RealEstate(props) {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {dev_estates
-                          ? dev_estates.RealEstates.map((el) => {
-                              return <BodyDevEstates key={el.id} RealEstate={el} devName={dev_estates.name} />;
+                          ? realEstates.map((el, i) => {
+                              return (
+                                <BodyDevEstates
+                                  key={el.id}
+                                  number={i + 1}
+                                  RealEstate={el}
+                                  devName={id ? dev_estates.name : el.Developer.name}
+                                />
+                              );
                             })
                           : null}
                       </tbody>

@@ -18,7 +18,8 @@ function reducer(state = INIT, action) {
     case 'ADD_DEVELOPER':
       return { ...state, msg: action.payload.msg };
     case 'SET_DEV_ESTATE':
-      return { ...state, dev_estates: action.payload.foundDeveloper };
+      const temp = action.payload.foundDeveloper ? action.payload.foundDeveloper : action.payload.allRealEstates;
+      return { ...state, dev_estates: temp };
     case 'SET_ESTATE_COMPLEX':
       return { ...state, estate_complex: action.payload.foundRealEstate };
     case 'SET_COMPLEX_ADMIN':

@@ -58,6 +58,9 @@ function App() {
         <Route path="/developers">
           <Developer />
         </Route>
+        <Route path="/real-estates">
+          <RealEstate />
+        </Route>
         <Route path="/login">
           <Login />
         </Route>
