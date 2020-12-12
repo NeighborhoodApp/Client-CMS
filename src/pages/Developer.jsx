@@ -7,13 +7,14 @@ import fetchData from '../helpers/fetchData';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
+
 export default function Developer() {
   const dispatch = useDispatch();
   let query = useQuery();
   
   // const { url, params: x, path } = useRouteMatch();
-  console.log('route', query.get('nama'));
-  const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPER' };
+  // console.log('route', query.get('nama'));
+  const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPERS' };
 
   useEffect(() => {
     dispatch(fetchData(params));

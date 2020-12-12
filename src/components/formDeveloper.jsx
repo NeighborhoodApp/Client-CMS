@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
+import fetchData from '../helpers/fetchData';
 const defaultValue = {
   name: '',
   email: '',
@@ -9,17 +12,43 @@ const defaultValue = {
   status: 'Active',
 };
 
+let loaded = false;
 export default function FormDeveloper(props) {
   const { formTitle } = props.data;
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const { params } = useRouteMatch();
 
-  console.log('props', props);
   useEffect(() => {
-    setPayload(defaultValue);
+    if (params.id) {
+      loaded = false;
+      const parameter = { url: 'developers/' + params.id, method: 'GET', headers: true, type: 'SET_DEVELOPER' };
+      dispatch(fetchData(parameter));
+      dispatch({ type: 'SET_DEVELOPER', payload: { foundDeveloper: null }  });
+      // const dev =
+    }
+    setPayload({
+      name: '',
+      email: '',
+      address: '',
+      status: 'Active',
+    });
   }, []);
+
+  const { developer } = useSelector((state) => state.reducerDeveloper);
+
+  if (developer && !loaded) {
+    console.log(developer, 'developer');
+    const { name, email, address } = developer;
+    defaultValue.name = name;
+    defaultValue.email = email;
+    defaultValue.address = address;
+    setPayload(defaultValue);
+    loaded = true;
+  }
 
   const hanldeClick = (path) => {
     history.push(path);
@@ -35,10 +64,12 @@ export default function FormDeveloper(props) {
   };
 
   const prosesSubmit = async (payload) => {
+    const method = params.id ? 'PUT' : 'POST';
+    const url = params.id ? `developers/${params.id}` : `developers`;
     try {
       const { data } = await axios({
-        url: 'developers',
-        method: 'POST',
+        url: url,
+        method: method,
         data: payload,
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -85,7 +116,7 @@ export default function FormDeveloper(props) {
                   id="name"
                   name="name"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.name}
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
@@ -109,8 +140,9 @@ export default function FormDeveloper(props) {
                   name="email"
                   autoComplete="off"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.email}
                   type="email"
+                  readOnly={params.id ? true : false}
                   onChange={(e) => handleForm(e)}
                   placeholder="Email"
                   className="py-1 px-1 outline-none block h-full w-full"

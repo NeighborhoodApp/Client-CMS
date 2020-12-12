@@ -23,9 +23,9 @@ export default function RealEstate(props) {
     return <i className="fas fa-building "></i>;
   };
 
-  console.log(dev_estates);
+  // console.log(dev_estates);
 
-  const realEstates = id ? dev_estates.RealEstates : dev_estates;
+  const realEstates = id ? (dev_estates ? dev_estates.RealEstates : []) : dev_estates;
 
   const dataPage = {
     count: (realEstates ? realEstates.length : 0) + ' Real Estate',
