@@ -1,38 +1,49 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
-import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
+import BodyAdmin from '../components/table/bodyAdmin';
 import fetchData from '../helpers/fetchData';
 
-export default function RealEstate(props) {
+export default function Admin() {
+  const history = useHistory();
   const { params, url } = useRouteMatch();
-  const id = params.id || props.id;
-  const apiUrl = id ? `developers/${id}` : `real-estates`;
+  const arrRoute = url.split('/');
+  let admin = null;
+  arrRoute.pop();
+  const back = arrRoute.join('/');
 
   const dispatch = useDispatch();
-  const parameter = { url: apiUrl, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
+  const parameter = {
+    url: `complexes/${params.complexId}`,
+    method: 'GET',
+    headers: true,
+    type: 'SET_COMPLEX_ADMIN',
+  };
   // console.log(params);
   useEffect(() => {
     dispatch(fetchData(parameter));
   }, []);
 
-  const { dev_estates } = useSelector((state) => state.reducerDeveloper);
-  // console.log(dev_estates);
+  const { complex_admin } = useSelector((state) => state.reducerDeveloper);
+
+  console.log(complex_admin, 'complex_admin');
+
+  if (complex_admin) {
+    admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
+  }
+
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
 
-  console.log(dev_estates);
-
-  const realEstates = id ? dev_estates.RealEstates : dev_estates;
-
   const dataPage = {
-    count: (realEstates ? realEstates.length : 0) + ' Real Estate',
+    count: (admin ? admin.length : 0) + ' Admin',
     icon: icon(),
-    pageTitle: 'Real Estate',
-    btnTitle: 'Add Real Estate',
-    btnAction: url + `/addrealestate`,
+    pageTitle: 'Admin Complex',
+    btnTitle: 'Add Admin',
+    btnAction: url + '/addadmin',
   };
 
   return (
@@ -48,7 +59,7 @@ export default function RealEstate(props) {
             <div className="flex flex-col">
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                  <div className="h-96 shadow overflow border-b border-gray-200 sm:rounded-lg">
+                  <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
@@ -56,31 +67,19 @@ export default function RealEstate(props) {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            #
+                            Full Name
                           </th>
                           <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Real Estate Name
+                            Adress
                           </th>
                           <th
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Address
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Koordinat
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
-                            Developer
+                            Email
                           </th>
                           <th
                             scope="col"
@@ -97,18 +96,12 @@ export default function RealEstate(props) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {dev_estates
-                          ? realEstates.map((el, i) => {
-                              return (
-                                <BodyDevEstates
-                                  key={el.id}
-                                  number={i + 1}
-                                  RealEstate={el}
-                                  devName={id ? dev_estates.name : el.Developer.name}
-                                />
-                              );
+                        {admin
+                          ? admin.map((el) => {
+                              return <BodyAdmin key={el.id} admin={el} />;
                             })
                           : null}
+                        {/*  */}
                       </tbody>
                     </table>
                   </div>

@@ -3,12 +3,11 @@ import { useHistory } from 'react-router-dom';
 
 
 export default function Heading(props) {
-  const { count, lastUpdate, pageTitle } = props.data;
+  const { count, icon, pageTitle, btnTitle, btnAction } = props.data;
   const history = useHistory();
-  const dateOptions = { timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric' };
-  console.log(props.addForm);
+
   const handleAddForm = () => {
-    history.push(props.addForm, { from: window.location.pathname });
+    history.push(btnAction);
   };
   return (
     // <!-- This example requires Tailwind CSS v2.0+ -->
@@ -18,24 +17,12 @@ export default function Heading(props) {
         <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
           <div className="mt-2 flex items-center text-sm text-gray-500">
             {/* <!-- Heroicon name: briefcase --> */}
-            <svg
-              className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
-              />
-            </svg>
-            {count ? count : ' 10 Movies'}
+            <div className="mr-2">
+              {icon}
+            </div>
+            {count ? count : ' 0 Items'}
           </div>
-          <div className="mt-2 flex items-center text-sm text-gray-500">
-            {/* <!-- Heroicon name: calendar --> */}
+          {/* <div className="mt-2 flex items-center text-sm text-gray-500">
             <svg
               className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400"
               xmlns="http://www.w3.org/2000/svg"
@@ -49,9 +36,8 @@ export default function Heading(props) {
                 clipRule="evenodd"
               />
             </svg>
-            {'Last update on ' +
-              new Date(parseInt(lastUpdate.substring(0, 8), 16) * 1000).toLocaleDateString('id-ID', dateOptions)}
-          </div>
+            Last update
+          </div> */}
         </div>
       </div>
       {props.addForm !== 'null' ? (
@@ -77,7 +63,7 @@ export default function Heading(props) {
                   d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              ADD
+              {btnTitle}
             </button>
           </span>
         </div>

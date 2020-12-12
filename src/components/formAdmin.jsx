@@ -4,11 +4,16 @@ import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 
 const defaultValue = {
-  name: '',
-  RealEstateId: '',
-  status: 'Inactive',
+  fullname: '',
+  address: '',
+  email: '',
+  password: 'admin123',
+  RealEstateId: null,
+  ComplexId: null,
+  status: 'Active',
 };
-export default function FormComplex(props) {
+
+export default function FormWarga(props) {
   const { formTitle } = props.data;
   const { url } = useRouteMatch();
   const urlIndex = url.split('/');
@@ -24,6 +29,7 @@ export default function FormComplex(props) {
 
   useEffect(() => {
     defaultValue.RealEstateId = params.realEstedId;
+    defaultValue.ComplexId = params.complexId;
     setPayload(defaultValue);
   }, []);
 
@@ -33,7 +39,7 @@ export default function FormComplex(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (payload.name) {
+    if (payload.fullname && payload.address && payload.email) {
       prosesSubmit(payload);
     } else {
       console.error('All field required');
@@ -43,7 +49,7 @@ export default function FormComplex(props) {
   const prosesSubmit = async (payload) => {
     try {
       const { data } = await axios({
-        url: 'complexes',
+        url: 'users/register-admin',
         method: 'POST',
         data: payload,
         headers: {
@@ -53,7 +59,7 @@ export default function FormComplex(props) {
 
       if (data) {
         console.log(data.msg);
-        history.push(back);
+        history.push(back + '/members');
       }
     } catch (error) {
       const msg = errorHandler(error);
@@ -81,17 +87,17 @@ export default function FormComplex(props) {
             <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
-                  <label htmlFor="name" className="bg-white text-gray-600 px-1">
-                    Complex Name *
+                  <label htmlFor="fullname" className="bg-white text-gray-600 px-1">
+                    Full Name *
                   </label>
                 </p>
               </div>
               <p>
                 <input
-                  id="name"
-                  name="name"
+                  id="fullname"
+                  name="fullname"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.fullname}
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
@@ -99,6 +105,51 @@ export default function FormComplex(props) {
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />
+              </p>
+            </div>
+            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+                <p>
+                  <label htmlFor="email" className="bg-white text-gray-600 px-1">
+                    Email *
+                  </label>
+                </p>
+              </div>
+              <p>
+                <input
+                  id="email"
+                  name="email"
+                  autoComplete="off"
+                  tabIndex={0}
+                  value={payload.email}
+                  type="email"
+                  onChange={(e) => handleForm(e)}
+                  placeholder="Email"
+                  className="py-1 px-1 outline-none block h-full w-full"
+                  required
+                />
+              </p>
+            </div>
+            <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
+              <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
+                <p>
+                  <label htmlFor="address" className="bg-white text-gray-600 px-1">
+                    Address *
+                  </label>
+                </p>
+              </div>
+              <p>
+                <textarea
+                  id="address"
+                  name="address"
+                  autoComplete="off"
+                  value={payload.address}
+                  tabIndex={0}
+                  onChange={(e) => handleForm(e)}
+                  className="py-1 px-1 outline-none block h-full w-full"
+                  required
+                  placeholder="Address"
+                ></textarea>
               </p>
             </div>
           </div>
@@ -112,7 +163,7 @@ export default function FormComplex(props) {
               <span>Save</span>
             </button>
             <button
-              onClick={() => hanldeClick(back)}
+              onClick={() => hanldeClick(back + '/members')}
               type="reset"
               disabled={loadingEdit || loadingAdd}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"

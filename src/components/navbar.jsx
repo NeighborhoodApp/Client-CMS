@@ -36,6 +36,13 @@ export default function Navbar() {
                   >
                     Developer
                   </NavLink>
+
+                  <NavLink
+                    to="/real-estates"
+                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                  >
+                    Real Estate
+                  </NavLink>
                 </div>
               </div>
             </div>
@@ -166,7 +173,6 @@ export default function Navbar() {
             <NavLink
               to="/"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              onClick={(e) => handlePage(e, '/')}
             >
               Home
             </NavLink>
@@ -174,9 +180,15 @@ export default function Navbar() {
             <NavLink
               to="/developers"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              onClick={(e) => handlePage(e, '/developers')}
             >
               Developer
+            </NavLink>
+
+            <NavLink
+              to="/real-estates"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Real EState
             </NavLink>
           </div>
           <div className="pt-4 pb-3 border-t border-gray-700">

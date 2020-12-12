@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { axios } from '../config/Axios';
+import errorHandler from '../helpers/errorHandler';
 const defaultValue = {
   name: '',
   email: '',
   address: '',
+  status: 'Active',
 };
+
 export default function FormDeveloper(props) {
   const { formTitle } = props.data;
   const [payload, setPayload] = useState(defaultValue);
@@ -23,7 +27,32 @@ export default function FormDeveloper(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(payload);
+    if (payload.email && payload.address && payload.name) {
+      prosesSubmit(payload);
+    } else {
+      console.error('All field required');
+    }
+  };
+
+  const prosesSubmit = async (payload) => {
+    try {
+      const { data } = await axios({
+        url: 'developers',
+        method: 'POST',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      });
+
+      if (data) {
+        console.log(data.msg);
+        history.push('/developers');
+      }
+    } catch (error) {
+      const msg = errorHandler(error);
+      console.log(msg);
+    }
   };
 
   const handleForm = (e) => {

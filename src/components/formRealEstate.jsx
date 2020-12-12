@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { axios } from '../config/Axios';
+import errorHandler from '../helpers/errorHandler';
 
 const defaultValue = {
   name: '',
   address: '',
   coordinate: '',
   DeveloperId: '',
+  status: 'Inactive',
 };
+
 export default function FormRealEstate(props) {
   const { formTitle } = props.data;
   const { url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
   const back = urlIndex.join('/');
-  console.log(back);
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
@@ -31,7 +34,32 @@ export default function FormRealEstate(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(payload);
+    if (payload.coordinate && payload.address && payload.name) {
+      prosesSubmit(payload);
+    } else {
+      console.error('All field required');
+    }
+  };
+
+  const prosesSubmit = async (payload) => {
+    try {
+      const { data } = await axios({
+        url: 'real-estates',
+        method: 'POST',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      });
+
+      if (data) {
+        console.log(data.msg);
+        history.push(back);
+      }
+    } catch (error) {
+      const msg = errorHandler(error);
+      console.log(msg);
+    }
   };
 
   const handleForm = (e) => {
@@ -68,7 +96,7 @@ export default function FormRealEstate(props) {
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
-                  placeholder="REal Estate Name"
+                  placeholder="Real Estate Name"
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />
