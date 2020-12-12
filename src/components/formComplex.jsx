@@ -50,11 +50,7 @@ export default function FormComplex(props) {
   }, []);
 
   const { complex_admin } = useSelector((state) => state.reducerDeveloper);
-  console.log('complex_admin', complex_admin);
-
-  const hanldeClick = (path) => {
-    history.push(path);
-  };
+  // console.log('complex_admin', complex_admin);
 
   if (complex_admin && !loaded) {
     const { name, RealEstateId, status } = complex_admin.foundComplex;
@@ -64,6 +60,10 @@ export default function FormComplex(props) {
     setPayload(defaultValue);
     loaded = true;
   }
+
+  const hanldeClick = (path) => {
+    history.push(path);
+  };
 
   const submitForm = (e) => {
     e.preventDefault();

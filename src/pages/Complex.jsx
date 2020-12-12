@@ -23,7 +23,6 @@ export default function Complex(props) {
   };
   // console.log(params);
   useEffect(() => {
-    console.log('complex ise state');;
     dispatch(fetchData(parameter));
   }, []);
 

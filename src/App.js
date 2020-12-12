@@ -17,6 +17,7 @@ import EditRealEstate from './pages/EditRealEstate';
 import AddComplex from './pages/AddComplex';
 import EditComplex from './pages/EditComplex';
 import AddAdmin from './pages/AddAdmin';
+import EditAdmin from './pages/EditAdmin';
 import Admin from './pages/Admin';
 import Home from './pages/Home';
 
@@ -69,15 +70,21 @@ function App() {
         <Route path="/real-estates">
           <RealEstate />
         </Route>
+        <Route path="/admin/:id/:estateId/add">
+          <AddAdmin />
+        </Route>
+        <Route path="/admin/:id/:estateId/edit">
+          <EditAdmin />
+        </Route>
+        <Route exact path="/complexs">
+          <Complex />
+        </Route>
         <Route path="/complexs/:id/edit">
           <EditComplex />
         </Route>
         <Route path="/complexs/:estateId/add">
           <AddComplex />
         </Route>
-        {/* <Route path="/complexs">
-          <Complex />
-        </Route> */}
         <Route path="/login">
           <Login />
         </Route>

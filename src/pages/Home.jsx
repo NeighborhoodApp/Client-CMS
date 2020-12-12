@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import FormRealEstate from '../components/formRealEstate';
+import { getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
 import Admin from './Admin';
 import Complex from './Complex';
 import Developer from './Developer';
@@ -17,7 +18,10 @@ export default function Home() {
   const estateId = query.get('estateId');
   const complexId = query.get('complexId');
   const action = query.get('action');
-  
+
+  const href = getCurrentUrl();
+  setHistory(href);
+
   if (id && estateId && complexId) {
     return <Admin data={{ id, estateId, complexId }} />;
   }

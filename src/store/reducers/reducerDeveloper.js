@@ -9,6 +9,7 @@ const INIT = {
   filter: [],
   search: false,
   msg: '',
+  admin: null,
 };
 
 function reducer(state = INIT, action) {
@@ -26,17 +27,21 @@ function reducer(state = INIT, action) {
       return { ...state, estate_complex: action.payload.foundRealEstate };
     case 'SET_COMPLEX_ADMIN':
       return { ...state, complex_admin: action.payload };
+    case 'SET_ADMIN':
+      return { ...state, admin: action.payload };
     case 'SET_DEVELOPER_LOADING':
     case 'SET_DEV_ESTATE_LOADING':
     case 'ADD_DEVELOPER_LOADING':
     case 'SET_ESTATE_COMPLEX_LOADING':
     case 'SET_COMPLEX_ADMIN_LOADING':
+    case 'SET_ADMIN_LOADING':
       return { ...state, loading: action.payload };
     case 'SET_DEVELOPER_ERROR':
     case 'SET_DEV_ESTATE_ERROR':
     case 'ADD_DEVELOPER_ERROR':
     case 'SET_ESTATE_COMPLEX_ERROR':
     case 'SET_COMPLEX_ADMIN_ERROR':
+    case 'SET_ADMIN_ERROR':
       return { ...state, error: action.payload };
     case 'SET_DEVELOPER_FILTER':
       return { ...state, filter: action.payload };

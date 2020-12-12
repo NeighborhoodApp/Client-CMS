@@ -1,15 +1,17 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 import { setDeveloper } from '../../helpers/setData';
 
 export default function BodyDevelopers(props) {
   const { developer } = props;
   const history = useHistory();
-
+  const href = getCurrentUrl();
   const hanldeClick = (path, detail = false) => {
     if (detail) {
       setDeveloper({ developer: developer.name, devId: developer.id });
     }
+    setHistory(href);
     history.push(path);
   };
 
@@ -57,14 +59,14 @@ export default function BodyDevelopers(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex w-auto justify-start">
             <button
-              onClick={() => hanldeClick(`developers/${developer.id}/edit`)}
+              onClick={() => hanldeClick(`${href}/${developer.id}/edit`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               <span>Edit</span>
             </button>
             <button
               // onClick={() => hanldeClick('developers/' + developer.id)}
-              onClick={() => hanldeClick('developers?id=' + developer.id, true)}
+              onClick={() => hanldeClick(`${href}?id=${developer.id}`, true)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
             >
               <span>Detail</span>

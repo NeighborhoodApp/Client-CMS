@@ -30,7 +30,7 @@ export default function Admin(props) {
 
   const { complex_admin } = useSelector((state) => state.reducerDeveloper);
 
-  console.log(complex_admin, 'complex_admin');
+  // console.log(complex_admin, 'complex_admin');
 
   if (complex_admin) {
     admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
@@ -40,12 +40,14 @@ export default function Admin(props) {
     return <i className="fas fa-building "></i>;
   };
 
+  // console.log(complexId);
   const dataPage = {
     count: (admin ? admin.length : 0) + ' Admin',
     icon: icon(),
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
-    btnAction: url + '/addadmin',
+    // / complexs /: id/:estateId/add
+    btnAction: `/admin/${complexId}/${estateId}/add`,
   };
 
   return (
