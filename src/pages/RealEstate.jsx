@@ -9,7 +9,6 @@ import { getQueryParams } from '../helpers/getUrlQuery';
 export default function RealEstate(props) {
   const { params, url } = useRouteMatch();
   const { id } = props.data;
-  const devId = getQueryParams('id');
   // const id = props.id || params.id;
   // const apiUrl = id ? `developers/${id}` : `real-estates`;
   // console.log(window.location.href);
@@ -36,7 +35,7 @@ export default function RealEstate(props) {
     icon: icon(),
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
-    btnAction: `/real-estates/${devId}/add`,
+    btnAction: `/real-estates/${id}/add`,
   };
 
   return (

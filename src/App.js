@@ -72,12 +72,12 @@ function App() {
         <Route path="/complexs/:id/edit">
           <EditComplex />
         </Route>
-        <Route path="/complexs/add">
+        <Route path="/complexs/:estateId/add">
           <AddComplex />
         </Route>
-        <Route path="/complexs">
+        {/* <Route path="/complexs">
           <Complex />
-        </Route>
+        </Route> */}
         <Route path="/login">
           <Login />
         </Route>

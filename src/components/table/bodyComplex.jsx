@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom';
-import { getCurrentUrl } from '../../helpers/getUrlQuery';
+import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 
 export default function BodyComplexs(props) {
   const history = useHistory();
@@ -9,8 +9,8 @@ export default function BodyComplexs(props) {
   const { url } = useRouteMatch();
   const href = getCurrentUrl();
   console.log(href);
-
   const hanldeClick = (path) => {
+    setHistory(href);
     history.push(path, { from: url, complexId: complex.id});
   };
 
@@ -45,7 +45,7 @@ export default function BodyComplexs(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex w-auto justify-start">
             <button
-              onClick={() => hanldeClick(url + '/edit')}
+              onClick={() => hanldeClick(`/complexs/${complex.id}/edit`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               <span>Edit</span>

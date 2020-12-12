@@ -4,6 +4,7 @@ import { useHistory, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
+import { getHistory } from '../helpers/getUrlQuery';
 
 const defaultValue = {
   name: '',
@@ -17,14 +18,16 @@ export default function FormComplex(props) {
   const { params, url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
-  const back = urlIndex.join('/');
+  // const back = urlIndex.join('/');
+  const back = getHistory();
   const developerId = params.id;
-  const realEstedId = params.realEstedId;
+  const realEstedId = params.estateId;
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  // const estateId = getQueryParam
 
   const complexId = status === 'edit' ? history.location.state.complexId : -1;
   useEffect(() => {

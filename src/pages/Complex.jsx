@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
 import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
+import { getQueryParams } from '../helpers/getUrlQuery';
 
 export default function Complex(props) {
   const { id, estateId } = props.data;
@@ -37,7 +38,7 @@ export default function Complex(props) {
     icon: icon(),
     pageTitle: 'Complex',
     btnTitle: 'Add Complex',
-    btnAction: '/complexs/add',
+    btnAction: `/complexs/${estateId}/add`,
   };
 
   return (
