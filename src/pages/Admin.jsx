@@ -1,31 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
+import BodyAdmin from '../components/table/bodyAdmin';
+import fetchData from '../helpers/fetchData';
 
-export default function Member() {
+export default function Admin() {
   const history = useHistory();
-  const { url } = useRouteMatch();
+  const { params, url } = useRouteMatch();
   const arrRoute = url.split('/');
+  let admin = null;
   arrRoute.pop();
   const back = arrRoute.join('/');
 
-  console.log(back);
-
-  const hanldeClick = (path) => {
-    history.push(path);
+  const dispatch = useDispatch();
+  const parameter = {
+    url: `complexes/${params.complexId}`,
+    method: 'GET',
+    headers: true,
+    type: 'SET_COMPLEX_ADMIN',
   };
+  // console.log(params);
+  useEffect(() => {
+    dispatch(fetchData(parameter));
+  }, []);
 
-  const hanldeDelete = (id) => {
-    console.log('delete' + id);
-  };
+  const { complex_admin } = useSelector((state) => state.reducerDeveloper);
+
+  console.log(complex_admin, 'complex_admin');
+
+  if (complex_admin) {
+    admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
+  }
 
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
 
   const dataPage = {
-    count: '10 Admin',
+    count: (admin ? admin.length : 0) + ' Admin',
     icon: icon(),
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
@@ -56,18 +70,12 @@ export default function Member() {
                             Full Name
                           </th>
                           <th
-                            address
-                            email
-                            password
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
                             Adress
                           </th>
                           <th
-                            address
-                            email
-                            password
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
@@ -88,46 +96,12 @@ export default function Member() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">Citra Land Real Estae</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">Jl. Pulo Gadung, No 12, Jakarta</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">admin@mail.com</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Active
-                            </span>
-                          </td>
-
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex w-auto justify-start">
-                              <button
-                                onClick={() => hanldeClick(url + '/edit')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-                              >
-                                <span>Edit</span>
-                              </button>
-                              {/* <button
-                                onClick={() => hanldeClick(url + '/members')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
-                              >
-                                <span>See Member</span>
-                              </button> */}
-                              <button className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300">
-                                <span>Delete</span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
+                        {admin
+                          ? admin.map((el) => {
+                              return <BodyAdmin admin={el} />;
+                            })
+                          : null}
+                        {/*  */}
                       </tbody>
                     </table>
                   </div>

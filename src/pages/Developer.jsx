@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
-import BodyDevelopers from '../components/table/bodyDevelopers';
+import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
 import fetchData from '../helpers/fetchData';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -10,6 +10,7 @@ function useQuery() {
 export default function Developer() {
   const dispatch = useDispatch();
   let query = useQuery();
+  
   // const { url, params: x, path } = useRouteMatch();
   console.log('route', query.get('nama'));
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPER' };
@@ -19,10 +20,10 @@ export default function Developer() {
   }, []);
   
   const { developers } = useSelector((state) => state.reducerDeveloper);
-  
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
+
   const dataPage = {
     count: (developers.length > 0 ? developers.length : 0) + ' Developer',
     icon: icon(),

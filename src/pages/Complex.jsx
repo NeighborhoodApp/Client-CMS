@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
-import BodyComplexs from '../components/table/bodyComplex';
+import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
 
 export default function Complex() {
@@ -22,8 +22,7 @@ export default function Complex() {
     dispatch(fetchData(parameter));
   }, []);
 
-  const { estate_complex } = useSelector((state) => state.reducerRealEstate);
-  // console.log('estate_complex', estate_complex);
+  const { estate_complex } = useSelector((state) => state.reducerDeveloper);
 
   const icon = () => {
     return <i className="fas fa-building "></i>;

@@ -16,8 +16,8 @@ import AddRealEstate from './pages/AddRealEstate';
 import EditRealEstate from './pages/EditRealEstate';
 import AddComplex from './pages/AddComplex';
 import EditComplex from './pages/EditComplex';
-import Member from './pages/Member';
 import AddAdmin from './pages/AddAdmin';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -40,11 +40,11 @@ function App() {
         <Route path="/developers/:id/:realEstedId/edit">
           <EditComplex />
         </Route>
-        <Route path="/developers/:id/:realEstedId/members">
-          <Member />
-        </Route>
-        <Route path="/developers/:id/:realEstedId/addadmin">
+        <Route path="/developers/:id/:realEstedId/complexs/addadmin">
           <AddAdmin />
+        </Route>
+        <Route path="/developers/:id/:realEstedId/complexs/:complexId">
+          <Admin />
         </Route>
         <Route path="/developers/:id/:realEstedId">
           <Complex />

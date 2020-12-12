@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { axios } from '../config/Axios';
+import errorHandler from '../helpers/errorHandler';
 
 const defaultValue = {
   name: '',
   RealEstateId: '',
+  status: 'Inactive',
 };
 export default function FormComplex(props) {
   const { formTitle } = props.data;
@@ -30,7 +33,32 @@ export default function FormComplex(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(payload);
+    if (payload.name) {
+      prosesSubmit(payload);
+    } else {
+      console.error('All field required');
+    }
+  };
+
+  const prosesSubmit = async (payload) => {
+    try {
+      const { data } = await axios({
+        url: 'complexes',
+        method: 'POST',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      });
+
+      if (data) {
+        console.log(data.msg);
+        history.push(back);
+      }
+    } catch (error) {
+      const msg = errorHandler(error);
+      console.log(msg);
+    }
   };
 
   const handleForm = (e) => {

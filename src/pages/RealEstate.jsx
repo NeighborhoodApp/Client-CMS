@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import Heading from '../components/heading';
-import BodyDevEstates from '../components/table/bodyRealEstates';
+import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
 
-export default function RealEstate() {
+export default function RealEstate(props) {
   const { params, url } = useRouteMatch();
+  const id = params.id || props.id;
+  
   const dispatch = useDispatch();
-  const parameter = { url: `developers/${params.id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
+  const parameter = { url: `developers/${id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
   // console.log(params);
   useEffect(() => {
     dispatch(fetchData(parameter));
