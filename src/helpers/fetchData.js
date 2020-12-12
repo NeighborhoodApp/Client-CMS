@@ -27,7 +27,7 @@ export default function fetchData(option) {
       console.log(data);
       dispatch({ type: option.type, payload: option.id ? option.id : data });
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       dispatch({ type: option.type + '_ERROR', payload: error });
     } finally {
       dispatch({ type: option.type + '_LOADING', payload: false });

@@ -1,5 +1,6 @@
 const INIT = {
   realEstates: [],
+  estate_complex: null,
   realEstate: {},
   loading: true,
   error: null,
@@ -9,15 +10,15 @@ const INIT = {
 
 function reducer(state = INIT, action) {
   switch (action.type) {
-    case 'SET_REAL_ESTATE':
-      return { ...state, realEstate: action.payload.allDevelopers };
-    case 'SET_REAL_ESTATE_LOADING':
+    case 'SET_ESTATE_COMPLEX':
+      return { ...state, estate_complex: action.payload.foundRealEstate };
+    case 'SET_ESTATE_COMPLEX_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_REAL_ESTATE_ERROR':
+    case 'SET_ESTATE_COMPLEX_ERROR':
       return { ...state, error: action.payload };
-    case 'SET_REAL_ESTATE_FILTER':
+    case 'SET_ESTATE_COMPLEX_FILTER':
       return { ...state, filter: action.payload };
-    case 'SET_REAL_ESTATE_SEARCH':
+    case 'SET_ESTATE_COMPLEX_SEARCH':
       return { ...state, search: action.payload };
     default:
       return state;

@@ -1,27 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
+import BodyComplexs from '../components/table/bodyComplex';
+import fetchData from '../helpers/fetchData';
 
 export default function Complex() {
   const history = useHistory();
-  const { url } = useRouteMatch();
-  console.log(url);
-
-  const hanldeClick = (path) => {
-    history.push(path);
+  const { params, url } = useRouteMatch();
+  // console.log(params);
+  const dispatch = useDispatch();
+  const parameter = {
+    url: `real-estates/${params.realEstedId}`,
+    method: 'GET',
+    headers: true,
+    type: 'SET_ESTATE_COMPLEX',
   };
+  // console.log(params);
+  useEffect(() => {
+    dispatch(fetchData(parameter));
+  }, []);
 
-  const hanldeDelete = (id) => {
-    console.log('delete' + id);
-  };
-  
+  const { estate_complex } = useSelector((state) => state.reducerRealEstate);
+  // console.log('estate_complex', estate_complex);
+
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
 
   const dataPage = {
-    count: '10 Complex',
+    count: (estate_complex ? estate_complex.Complexes.length : 0) + ' Complexs',
     icon: icon(),
     pageTitle: 'Complex',
     btnTitle: 'Add Complex',
@@ -61,12 +70,6 @@ export default function Complex() {
                             scope="col"
                             className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                           >
-                            Adress
-                          </th>
-                          <th
-                            scope="col"
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                          >
                             Status
                           </th>
                           <th
@@ -78,46 +81,12 @@ export default function Complex() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">Komplek Papaya</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">Citra Land Real Estae</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">Jl. Pulo Gadung, No 12, Jakarta</div>
-                          </td>
-
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Active
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex w-auto justify-start">
-                              <button
-                                onClick={() => hanldeClick(url + '/edit')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-                              >
-                                <span>Edit</span>
-                              </button>
-                              <button
-                                onClick={() => hanldeClick(url + '/members')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
-                              >
-                                <span>See Member</span>
-                              </button>
-                              <button className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300">
-                                <span>Delete</span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
+                        {estate_complex
+                          ? estate_complex.Complexes.map((el) => {
+                                  return <BodyComplexs key={el.id} complex={el} realestateName={estate_complex.name} />;
+                            })
+                          : null}
+                        {/*  */}
                       </tbody>
                     </table>
                   </div>

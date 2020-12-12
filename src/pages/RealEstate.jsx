@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { useRouteMatch } from 'react-router-dom';
 import Heading from '../components/heading';
-import BodyDevEstates from '../components/table/bodyDevEstates';
+import BodyDevEstates from '../components/table/bodyRealEstates';
 import fetchData from '../helpers/fetchData';
 
-const id = '121211';
 export default function RealEstate() {
-  const history = useHistory();
-  const { path, params, url } = useRouteMatch();
+  const { params, url } = useRouteMatch();
   const dispatch = useDispatch();
   const parameter = { url: `developers/${params.id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
   // console.log(params);
@@ -17,7 +15,7 @@ export default function RealEstate() {
   }, []);
 
   const { dev_estates } = useSelector((state) => state.reducerDeveloper);
-  console.log(dev_estates);
+  // console.log(dev_estates);
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };

@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
 import BodyDevelopers from '../components/table/bodyDevelopers';
 import fetchData from '../helpers/fetchData';
-
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 export default function Developer() {
   const dispatch = useDispatch();
+  let query = useQuery();
+  // const { url, params: x, path } = useRouteMatch();
+  console.log('route', query.get('nama'));
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPER' };
 
   useEffect(() => {
@@ -30,16 +36,6 @@ export default function Developer() {
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />
-          {/* <div className="flex justify-between">
-            <h1>Develovers</h1>
-            <button
-              onClick={() => hanldeClick('/developers/add')}
-              type="submit"
-              className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-            >
-              <span>Add Developer</span>
-            </button>
-          </div> */}
         </div>
       </header>
       <main>
