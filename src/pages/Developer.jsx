@@ -8,13 +8,12 @@ export default function Developer() {
   const dispatch = useDispatch();
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPER' };
 
-  const { developers, loading, error } = useSelector((state) => state.reducerDeveloper);
   useEffect(() => {
     dispatch(fetchData(params));
   }, []);
-
-  console.log('developers', developers, loading);
-
+  
+  const { developers } = useSelector((state) => state.reducerDeveloper);
+  
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };

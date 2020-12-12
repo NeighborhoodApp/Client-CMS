@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
+import BodyDevEstates from '../components/table/bodyDevEstates';
+import fetchData from '../helpers/fetchData';
 
 const id = '121211';
 export default function RealEstate() {
   const history = useHistory();
   const { path, params, url } = useRouteMatch();
+  const dispatch = useDispatch();
+  const parameter = { url: `developers/${params.id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
+  // console.log(params);
+  useEffect(() => {
+    dispatch(fetchData(parameter));
+  }, []);
 
-  const hanldeClick = (path) => {
-    history.push(path, { from: url });
-  };
-
-  const hanldeDelete = (id) => {
-    console.log('delete' + id);
-  };
- 
+  const { dev_estates } = useSelector((state) => state.reducerDeveloper);
+  console.log(dev_estates);
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
 
   const dataPage = {
-    count: '10 Real Estate',
+    count: (dev_estates ? dev_estates.RealEstates.length : 0) + ' Real Estate',
     icon: icon(),
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
@@ -83,48 +86,11 @@ export default function RealEstate() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        <tr>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-gray-900">Citra Land Real Estae</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="text-sm text-gray-900">Jl. Pulo Gadung, No 12, Jakarta</div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">-3.025139439024741, 104.80597965409056</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Developer Name</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                              Active
-                            </span>
-                          </td>
-
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex w-auto justify-start">
-                              <button
-                                onClick={() => hanldeClick(url + '/editrealestate')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
-                              >
-                                <span>Edit</span>
-                              </button>
-                              <button
-                                onClick={() => hanldeClick(url + '/1212122')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
-                              >
-                                <span>Detail</span>
-                              </button>
-                              <button
-                                onClick={() => hanldeDelete('id')}
-                                className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
-                              >
-                                <span>Delete</span>
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
+                        {dev_estates
+                          ? dev_estates.RealEstates.map((el) => {
+                              return <BodyDevEstates key={el.id} RealEstate={el} devName={dev_estates.name} />;
+                            })
+                          : null}
                       </tbody>
                     </table>
                   </div>

@@ -24,6 +24,7 @@ export default function fetchData(option) {
     try {
       dispatch({ type: option.type + '_LOADING', payload: true });
       const { data } = await axios(payloadAxios);
+      console.log(data);
       dispatch({ type: option.type, payload: option.id ? option.id : data });
     } catch (error) {
       console.log(error);
