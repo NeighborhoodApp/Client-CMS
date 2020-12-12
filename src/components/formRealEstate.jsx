@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
+import fetchData from '../helpers/fetchData';
 
 const defaultValue = {
   name: '',
@@ -11,22 +13,65 @@ const defaultValue = {
   status: 'Inactive',
 };
 
+let loaded = false;
 export default function FormRealEstate(props) {
   const { formTitle } = props.data;
   const { url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
   const back = urlIndex.join('/');
+  urlIndex.pop();
+  const backEdit = urlIndex.join('/');
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
   const params = useParams();
+  const realEstateId = params.realEsttateId;
+  const dispatch = useDispatch();
+  console.log(params);
+  const parameter = {
+    url: `real-estates/${params.realEstedId}`,
+    method: 'GET',
+    headers: true,
+    type: 'SET_ESTATE_COMPLEX',
+  };
+  // dispatch(fetchData(parameter));
+  // const { estate_complex } = useSelector((state) => state.reducerDeveloper);
 
   useEffect(() => {
-    defaultValue.DeveloperId = params.id;
-    setPayload(defaultValue);
+    if (realEstateId) {
+      loaded = false;
+        const parameter = {
+          url: `real-estates/${realEstateId}`,
+          method: 'GET',
+          headers: true,
+          type: 'SET_ESTATE_COMPLEX',
+        };
+      dispatch(fetchData(parameter));
+      dispatch({ type: 'SET_ESTATE_COMPLEX', payload: { foundRealEstate: null } });
+    }
+    setPayload({
+      name: '',
+      address: '',
+      coordinate: '',
+      DeveloperId: params.id,
+      status: 'Inactive',
+    });
   }, []);
+
+  const { estate_complex } = useSelector((state) => state.reducerDeveloper);
+
+  if (estate_complex && !loaded) {
+    const { name, address, coordinate, DeveloperId, status } = estate_complex;
+    defaultValue.name = name;
+    defaultValue.address = address;
+    defaultValue.coordinate = coordinate;
+    defaultValue.DeveloperId = DeveloperId;
+    defaultValue.status = status;
+    setPayload(defaultValue);
+    loaded = true;
+  }
 
   const hanldeClick = (path) => {
     history.push(path);
@@ -42,10 +87,13 @@ export default function FormRealEstate(props) {
   };
 
   const prosesSubmit = async (payload) => {
+    const method = realEstateId ? 'PUT' : 'POST';
+    const url = realEstateId ? `real-estates/${realEstateId}` : `real-estates`;
+    console.log(payload)
     try {
       const { data } = await axios({
-        url: 'real-estates',
-        method: 'POST',
+        url: url,
+        method: method,
         data: payload,
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -54,7 +102,7 @@ export default function FormRealEstate(props) {
 
       if (data) {
         console.log(data.msg);
-        history.push(back);
+        history.push(realEstateId ? backEdit : back);
       }
     } catch (error) {
       const msg = errorHandler(error);
@@ -92,7 +140,7 @@ export default function FormRealEstate(props) {
                   id="name"
                   name="name"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.name}
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
@@ -138,7 +186,7 @@ export default function FormRealEstate(props) {
                   name="coordinate"
                   autoComplete="off"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.coordinate}
                   type="text"
                   onChange={(e) => handleForm(e)}
                   placeholder="Coordinate"
@@ -158,7 +206,7 @@ export default function FormRealEstate(props) {
               <span>Save</span>
             </button>
             <button
-              onClick={() => hanldeClick(back)}
+              onClick={() => hanldeClick(realEstateId ? backEdit : back)}
               type="reset"
               disabled={loadingEdit || loadingAdd}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"

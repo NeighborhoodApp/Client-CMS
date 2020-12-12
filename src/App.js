@@ -31,7 +31,7 @@ function App() {
         <Route path="/developers/:id/addrealestate">
           <AddRealEstate />
         </Route>
-        <Route path="/developers/:id/editrealestate">
+        <Route path="/developers/:id/editrealestate/:realEsttateId">
           <EditRealEstate />
         </Route>
         <Route path="/developers/:id/:realEstedId/add">

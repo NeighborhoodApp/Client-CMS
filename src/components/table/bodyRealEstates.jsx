@@ -45,7 +45,7 @@ export default function BodyDevEstates(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex w-auto justify-start">
             <button
-              onClick={() => hanldeClick(url + '/editrealestate')}
+              onClick={() => hanldeClick(url + '/editrealestate/' + RealEstate.id)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               <span>Edit</span>
