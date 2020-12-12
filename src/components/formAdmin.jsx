@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { axios } from '../config/Axios';
+import errorHandler from '../helpers/errorHandler';
 
 const defaultValue = {
   fullname: '',
   address: '',
   email: '',
-  password: 'warga123',
+  password: 'admin123',
+  RealEstateId: null,
+  ComplexId: null,
+  status: 'Active',
 };
 
 export default function FormWarga(props) {
@@ -24,6 +29,7 @@ export default function FormWarga(props) {
 
   useEffect(() => {
     defaultValue.RealEstateId = params.realEstedId;
+    defaultValue.ComplexId = params.complexId;
     setPayload(defaultValue);
   }, []);
 
@@ -33,7 +39,32 @@ export default function FormWarga(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
-    console.log(payload);
+    if (payload.fullname && payload.address && payload.email) {
+      prosesSubmit(payload);
+    } else {
+      console.error('All field required');
+    }
+  };
+
+  const prosesSubmit = async (payload) => {
+    try {
+      const { data } = await axios({
+        url: 'users/register-admin',
+        method: 'POST',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token'),
+        },
+      });
+
+      if (data) {
+        console.log(data.msg);
+        history.push(back + '/members');
+      }
+    } catch (error) {
+      const msg = errorHandler(error);
+      console.log(msg);
+    }
   };
 
   const handleForm = (e) => {
@@ -56,17 +87,17 @@ export default function FormWarga(props) {
             <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
-                  <label htmlFor="name" className="bg-white text-gray-600 px-1">
+                  <label htmlFor="fullname" className="bg-white text-gray-600 px-1">
                     Full Name *
                   </label>
                 </p>
               </div>
               <p>
                 <input
-                  id="name"
-                  name="name"
+                  id="fullname"
+                  name="fullname"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.fullname}
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
@@ -90,7 +121,7 @@ export default function FormWarga(props) {
                   name="email"
                   autoComplete="off"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.email}
                   type="email"
                   onChange={(e) => handleForm(e)}
                   placeholder="Email"

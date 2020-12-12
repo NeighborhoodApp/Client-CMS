@@ -40,7 +40,7 @@ function App() {
         <Route path="/developers/:id/:realEstedId/edit">
           <EditComplex />
         </Route>
-        <Route path="/developers/:id/:realEstedId/complexs/addadmin">
+        <Route path="/developers/:id/:realEstedId/complexs/:complexId/addadmin">
           <AddAdmin />
         </Route>
         <Route path="/developers/:id/:realEstedId/complexs/:complexId">

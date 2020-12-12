@@ -43,7 +43,7 @@ export default function Admin() {
     icon: icon(),
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
-    btnAction: back + '/addadmin',
+    btnAction: url + '/addadmin',
   };
 
   return (
@@ -98,7 +98,7 @@ export default function Admin() {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {admin
                           ? admin.map((el) => {
-                              return <BodyAdmin admin={el} />;
+                              return <BodyAdmin key={el.id} admin={el} />;
                             })
                           : null}
                         {/*  */}
