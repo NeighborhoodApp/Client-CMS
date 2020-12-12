@@ -4,6 +4,7 @@ import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-do
 import Heading from '../components/heading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
 import fetchData from '../helpers/fetchData';
+import { clearDeveloper } from '../helpers/setData';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -17,6 +18,7 @@ export default function Developer() {
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPERS' };
 
   useEffect(() => {
+    clearDeveloper();
     dispatch(fetchData(params));
   }, []);
   

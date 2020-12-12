@@ -18,16 +18,14 @@ import AddComplex from './pages/AddComplex';
 import EditComplex from './pages/EditComplex';
 import AddAdmin from './pages/AddAdmin';
 import Admin from './pages/Admin';
+import Home from './pages/Home';
 
 function App() {
   return (
     <Provider store={store}>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Developer} />
-        <Route path="/developers/:id/edit">
-          <EditDeveloper />
-        </Route>
+        <Route exact path="/" component={Home} />
         <Route path="/developers/:id/addrealestate">
           <AddRealEstate />
         </Route>
@@ -52,14 +50,33 @@ function App() {
         <Route path="/developers/add">
           <AddDeveloper />
         </Route>
+        <Route path="/developers/:id/edit">
+          <EditDeveloper />
+        </Route>
         <Route path="/developers/:id">
           <RealEstate />
         </Route>
         <Route path="/developers">
-          <Developer />
+          {/* <Developer /> */}
+          <Home />
+        </Route>
+        <Route path="/real-estates/:id/edit">
+          <EditRealEstate />
+        </Route>
+        <Route path="/real-estates/:devId/add/">
+          <AddRealEstate />
         </Route>
         <Route path="/real-estates">
           <RealEstate />
+        </Route>
+        <Route path="/complexs/:id/edit">
+          <EditComplex />
+        </Route>
+        <Route path="/complexs/add">
+          <AddComplex />
+        </Route>
+        <Route path="/complexs">
+          <Complex />
         </Route>
         <Route path="/login">
           <Login />

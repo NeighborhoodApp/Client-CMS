@@ -6,19 +6,23 @@ import Heading from '../components/heading';
 import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
 
-export default function Complex() {
+export default function Complex(props) {
+  const { id, estateId } = props.data;
+
   const history = useHistory();
   const { params, url } = useRouteMatch();
   // console.log(params);
+  const devId = estateId || params.realEstedId;
   const dispatch = useDispatch();
   const parameter = {
-    url: `real-estates/${params.realEstedId}`,
+    url: `real-estates/${devId}`,
     method: 'GET',
     headers: true,
     type: 'SET_ESTATE_COMPLEX',
   };
   // console.log(params);
   useEffect(() => {
+    console.log('complex ise state');;
     dispatch(fetchData(parameter));
   }, []);
 
@@ -33,7 +37,7 @@ export default function Complex() {
     icon: icon(),
     pageTitle: 'Complex',
     btnTitle: 'Add Complex',
-    btnAction: url + '/add',
+    btnAction: '/complexs/add',
   };
 
   return (
@@ -82,7 +86,7 @@ export default function Complex() {
                       <tbody className="bg-white divide-y divide-gray-200">
                         {estate_complex
                           ? estate_complex.Complexes.map((el) => {
-                                  return <BodyComplexs key={el.id} complex={el} realestateName={estate_complex.name} />;
+                              return <BodyComplexs key={el.id} complex={el} realestateName={estate_complex.name} />;
                             })
                           : null}
                         {/*  */}

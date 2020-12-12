@@ -1,11 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { setDeveloper } from '../../helpers/setData';
 
 export default function BodyDevelopers(props) {
   const { developer } = props;
   const history = useHistory();
 
-  const hanldeClick = (path) => {
+  const hanldeClick = (path, detail = false) => {
+    if (detail) {
+      setDeveloper({ developer: developer.name, devId: developer.id });
+    }
     history.push(path);
   };
 
@@ -28,9 +32,7 @@ export default function BodyDevelopers(props) {
       <tr>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex items-center">
-            <div className="flex-shrink-0 h-10 w-10">
-              {avatar(developer.email)}
-            </div>
+            <div className="flex-shrink-0 h-10 w-10">{avatar(developer.email)}</div>
             <div className="ml-4">
               <div className="text-sm font-medium text-gray-900">{developer.name}</div>
               <div className="text-sm text-gray-500">{developer.email}</div>
@@ -61,7 +63,8 @@ export default function BodyDevelopers(props) {
               <span>Edit</span>
             </button>
             <button
-              onClick={() => hanldeClick('developers/' + developer.id)}
+              // onClick={() => hanldeClick('developers/' + developer.id)}
+              onClick={() => hanldeClick('developers?id=' + developer.id, true)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
             >
               <span>Detail</span>

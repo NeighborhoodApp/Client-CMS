@@ -6,17 +6,19 @@ import Heading from '../components/heading';
 import BodyAdmin from '../components/table/bodyAdmin';
 import fetchData from '../helpers/fetchData';
 
-export default function Admin() {
+export default function Admin(props) {
+  const { id, estateId, complexId } = props.data;
+
   const history = useHistory();
   const { params, url } = useRouteMatch();
   const arrRoute = url.split('/');
   let admin = null;
   arrRoute.pop();
   const back = arrRoute.join('/');
-  
+
   const dispatch = useDispatch();
   const parameter = {
-    url: `complexes/${params.complexId}`,
+    url: `complexes/${complexId}`,
     method: 'GET',
     headers: true,
     type: 'SET_COMPLEX_ADMIN',

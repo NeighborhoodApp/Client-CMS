@@ -4,35 +4,39 @@ import { useRouteMatch } from 'react-router-dom';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
+import { getQueryParams } from '../helpers/getUrlQuery';
 
 export default function RealEstate(props) {
   const { params, url } = useRouteMatch();
-  const id = params.id || props.id;
-  const apiUrl = id ? `developers/${id}` : `real-estates`;
-
+  const { id } = props.data;
+  const devId = getQueryParams('id');
+  // const id = props.id || params.id;
+  // const apiUrl = id ? `developers/${id}` : `real-estates`;
+  // console.log(window.location.href);
   const dispatch = useDispatch();
-  const parameter = { url: apiUrl, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
+  const parameter = { url: `developers/${id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
   // console.log(params);
   useEffect(() => {
     dispatch(fetchData(parameter));
   }, []);
 
   const { dev_estates } = useSelector((state) => state.reducerDeveloper);
-  // console.log(dev_estates);
+
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };
 
-  // console.log(dev_estates);
+  console.log('dev_estates', dev_estates);
 
-  const realEstates = id ? (dev_estates ? dev_estates.RealEstates : []) : dev_estates;
+  // const realEstates = id ? (dev_estates ? dev_estates.RealEstates : []) : dev_estates;
+  const realEstates = dev_estates ? dev_estates.RealEstates : [];
 
   const dataPage = {
     count: (realEstates ? realEstates.length : 0) + ' Real Estate',
     icon: icon(),
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
-    btnAction: url + `/addrealestate`,
+    btnAction: `/real-estates/${devId}/add`,
   };
 
   return (

@@ -1,13 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 
 export default function BodyDevEstates(props) {
   const { RealEstate, devName, number } = props;
   const history = useHistory();
   const { url } = useRouteMatch();
 
+  const href = getCurrentUrl();
   const hanldeClick = (path) => {
+    setHistory(href);
     history.push(path, { from: url });
   };
 
@@ -45,13 +48,15 @@ export default function BodyDevEstates(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex w-auto justify-start">
             <button
-              onClick={() => hanldeClick(url + '/editrealestate/' + RealEstate.id)}
+              // onClick={() => hanldeClick(url + '/editrealestate/' + RealEstate.id)}
+              onClick={() => hanldeClick(`/real-estates/${RealEstate.id}/edit`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               <span>Edit</span>
             </button>
             <button
-              onClick={() => hanldeClick(url + `/${RealEstate.id}`)}
+              // onClick={() => hanldeClick(url + `/${RealEstate.id}`)}
+              onClick={() => hanldeClick(href + `&estateId=${RealEstate.id}`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
             >
               <span>Detail</span>
