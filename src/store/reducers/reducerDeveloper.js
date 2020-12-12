@@ -1,6 +1,6 @@
 const INIT = {
   developers: [],
-  developer: {},
+  developer: null,
   dev_estates: null,
   estate_complex: null,
   complex_admin: null,
@@ -13,8 +13,10 @@ const INIT = {
 
 function reducer(state = INIT, action) {
   switch (action.type) {
-    case 'SET_DEVELOPER':
+    case 'SET_DEVELOPERS':
       return { ...state, developers: action.payload.allDevelopers };
+    case 'SET_DEVELOPER':
+      return { ...state, developer: action.payload.foundDeveloper };
     case 'ADD_DEVELOPER':
       return { ...state, msg: action.payload.msg };
     case 'SET_DEV_ESTATE':
