@@ -13,7 +13,7 @@ export default function Admin() {
   let admin = null;
   arrRoute.pop();
   const back = arrRoute.join('/');
-
+  
   const dispatch = useDispatch();
   const parameter = {
     url: `complexes/${params.complexId}`,

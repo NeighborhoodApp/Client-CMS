@@ -36,9 +36,7 @@ export default function FormRealEstate(props) {
     headers: true,
     type: 'SET_ESTATE_COMPLEX',
   };
-  // dispatch(fetchData(parameter));
-  // const { estate_complex } = useSelector((state) => state.reducerDeveloper);
-
+  
   useEffect(() => {
     if (realEstateId) {
       loaded = false;
@@ -48,8 +46,8 @@ export default function FormRealEstate(props) {
           headers: true,
           type: 'SET_ESTATE_COMPLEX',
         };
-      dispatch(fetchData(parameter));
       dispatch({ type: 'SET_ESTATE_COMPLEX', payload: { foundRealEstate: null } });
+      dispatch(fetchData(parameter));
     }
     setPayload({
       name: '',

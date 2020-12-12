@@ -8,7 +8,7 @@ export default function BodyComplexs(props) {
   const { url } = useRouteMatch();
 
   const hanldeClick = (path) => {
-    history.push(path);
+    history.push(path, { from: url, complexId: complex.id});
   };
 
   const hanldeDelete = (id) => {
