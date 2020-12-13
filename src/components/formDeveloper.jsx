@@ -20,7 +20,9 @@ export default function FormDeveloper(props) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { params } = useRouteMatch();
+  const { params, url } = useRouteMatch();
+  const urlIndex = url.split('/');
+  const formType = urlIndex.pop();
 
   useEffect(() => {
     if (params.id) {
@@ -100,7 +102,7 @@ export default function FormDeveloper(props) {
 
   return (
     <>
-      {loadingData ? <Preloading /> : null}
+      {loadingData && formType !== 'add' ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">

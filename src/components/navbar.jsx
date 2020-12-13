@@ -7,7 +7,7 @@ import Avatar from '../images/avatar.png';
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [usermenuOpen, setUsermenuOpen] = useState(false);
-  const [isLogedIn, setIslogedIn] = useState(true);
+  const [isLogedIn, setIslogedIn] = useState(false);
   const history = useHistory();
 
   const handlePage = (e, path) => {
@@ -17,12 +17,7 @@ export default function Navbar() {
   const { isLogedIn: activeNow } = useSelector((state) => state.reducerDeveloper);
 
   useEffect(() => {
-    if (isLogedIn) {
-      const token = localStorage.getItem('access_token');
-      if (!token) {
-        setIslogedIn(false);
-      }
-    } else {
+    if (!isLogedIn) {
       const token = localStorage.getItem('access_token');
       if (token) {
         setIslogedIn(true);
@@ -31,10 +26,8 @@ export default function Navbar() {
   });
 
   const avatar = isLogedIn ? `https://avatars.dicebear.com/api/avataaars/${'riyan'}.svg?mood[]=happy` : Avatar;
-
-  // const { selectedDeveloper } = useSelector((state) => state.reducerDeveloper);
-
-  if (!activeNow || !isLogedIn) return <div></div>;
+  
+  if (!isLogedIn && !activeNow) return <div></div>;
 
   return (
     <div>

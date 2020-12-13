@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import { getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
@@ -23,10 +23,11 @@ export default function Home() {
 
   const href = getCurrentUrl();
   setHistory(href);
-
-  if (localStorage.getItem('access_token')) {
-    dispatch(actionSetLogin(true));
-  }
+  useEffect(() => {
+    if (localStorage.getItem('access_token')) {
+      dispatch(actionSetLogin(true));
+    }
+  })
 
   if (id && estateId && complexId) {
     return <Admin data={{ id, estateId, complexId }} />;
