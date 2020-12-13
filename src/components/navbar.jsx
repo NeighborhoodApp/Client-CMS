@@ -1,19 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import Logo from '../logo.svg';
+import Avatar from '../images/avatar.png';
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [usermenuOpen, setUsermenuOpen] = useState(false);
+  const [isLogedIn, setIslogedIn] = useState(true);
   const history = useHistory();
 
   const handlePage = (e, path) => {
     e.preventDefault();
     history.push(path);
   };
+  const { isLogedIn: activeNow } = useSelector((state) => state.reducerDeveloper);
+
+  useEffect(() => {
+    if (isLogedIn) {
+      const token = localStorage.getItem('access_token');
+      if (!token) {
+        setIslogedIn(false);
+      }
+    } else {
+      const token = localStorage.getItem('access_token');
+      if (token) {
+        setIslogedIn(true);
+      }
+    }
+  });
+
+  const avatar = isLogedIn ? `https://avatars.dicebear.com/api/avataaars/${'riyan'}.svg?mood[]=happy` : Avatar;
 
   // const { selectedDeveloper } = useSelector((state) => state.reducerDeveloper);
+
+  if (!activeNow || !isLogedIn) return <div></div>;
 
   return (
     <div>
@@ -46,7 +67,7 @@ export default function Navbar() {
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
                 {
-                  // !selectedDeveloper ? '' : 
+                  // !selectedDeveloper ? '' :
                   // <div className="mx-3">
                   //   <div className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
                   //     {'Developer: ' + selectedDeveloper}
@@ -83,11 +104,7 @@ export default function Navbar() {
                       aria-haspopup="true"
                     >
                       <span className="sr-only">Open user menu</span>
-                      <img
-                        className="h-8 w-8 rounded-full bg-white"
-                        src={`https://avatars.dicebear.com/api/avataaars/${'riyan'}.svg?mood[]=happy`}
-                        alt=""
-                      />
+                      <img className="h-8 w-8 rounded-full bg-white" src={avatar} alt="" />
                     </button>
                   </div>
                   {/* <!--
@@ -101,6 +118,7 @@ export default function Navbar() {
                       To: "transform opacity-0 scale-95"
                   --> */}
                   <div
+                    onBlur={() => setUsermenuOpen(false)}
                     x-show="open"
                     className={
                       (usermenuOpen ? '' : 'hidden') +
@@ -110,15 +128,24 @@ export default function Navbar() {
                     aria-orientation="vertical"
                     aria-labelledby="user-menu"
                   >
-                    <NavLink to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    {/* <NavLink to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                       Your Profile
                     </NavLink>
 
                     <NavLink to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
                       Settings
-                    </NavLink>
+                    </NavLink> */}
 
-                    <NavLink to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">
+                    <NavLink
+                      onClick={() => {
+                        localStorage.clear();
+                        setUsermenuOpen(!usermenuOpen);
+                        setIslogedIn(false);
+                      }}
+                      to="/login"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      role="menuitem"
+                    >
                       Sign out
                     </NavLink>
                   </div>

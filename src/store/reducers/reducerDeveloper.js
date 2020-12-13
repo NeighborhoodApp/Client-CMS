@@ -12,6 +12,7 @@ const INIT = {
   admin: null,
   stage: null, // delete, post, update
   selectedDeveloper: null, // Developer name
+  isLogedIn: false,
 };
 
 function reducer(state = INIT, action) {
@@ -31,6 +32,8 @@ function reducer(state = INIT, action) {
       return { ...state, complex_admin: action.payload };
     case 'SET_ADMIN':
       return { ...state, admin: action.payload };
+    case 'SET_LOGIN':
+      return { ...state, isLogedIn: action.payload };
     case 'DELETE_DEVELOPER':
       let tempDev = [...state.developers];
       console.log(action.payload);

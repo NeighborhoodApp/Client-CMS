@@ -11,3 +11,10 @@ export const actionSelectedDeveloper = (name) => {
     payload: name,
   };
 };
+
+export const actionSetLogin = (isLogin) => {
+  return {
+    type: 'SET_LOGIN',
+    payload: isLogin,
+  };
+};

@@ -16,8 +16,7 @@ let loaded = false;
 export default function FormDeveloper(props) {
   const { formTitle } = props.data;
   const [payload, setPayload] = useState(defaultValue);
-  const [loadingEdit, setLoadingEdit] = useState(false);
-  const [loadingAdd, setLoadingAdd] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const { params } = useRouteMatch();
@@ -66,6 +65,7 @@ export default function FormDeveloper(props) {
   const prosesSubmit = async (payload) => {
     const method = params.id ? 'PUT' : 'POST';
     const url = params.id ? `developers/${params.id}` : `developers`;
+    setLoading(true);
     try {
       const { data } = await axios({
         url: url,
@@ -83,6 +83,8 @@ export default function FormDeveloper(props) {
     } catch (error) {
       const msg = errorHandler(error);
       console.log(msg);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -175,17 +177,17 @@ export default function FormDeveloper(props) {
           </div>
           <div className="border-t mt-6 pt-3">
             <button
-              disabled={loadingEdit || loadingAdd}
+              disabled={loading}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
-              {loadingAdd || loadingEdit ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
+              {loading ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
               <span>Save</span>
             </button>
             <button
               onClick={() => hanldeClick('/developers')}
               type="reset"
-              disabled={loadingEdit || loadingAdd}
+              disabled={loading}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"
             >
               <span>Cancel</span>
