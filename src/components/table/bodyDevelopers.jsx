@@ -16,7 +16,7 @@ export default function BodyDevelopers(props) {
     history.push(path, { from: href });
   };
 
-  const hanldeDelete = (id, name) => {
+  const hanldeDelete = (id) => {
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -27,12 +27,12 @@ export default function BodyDevelopers(props) {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        prosesDelete(id, name);
+        prosesDelete(id);
       }
     });
   };
 
-  const prosesDelete = async (id, name) => {
+  const prosesDelete = async (id) => {
     const params = {
       url: `developers/${id}`,
       method: 'DELETE',

@@ -4,7 +4,7 @@ import { getBackUrl, getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
 
 
 export default function Heading(props) {
-  const { count, icon, pageTitle, btnTitle, btnAction } = props.data;
+  const { count, msg, pageTitle, btnTitle, btnAction } = props.data;
   const history = useHistory();
   const href = getCurrentUrl();
   const [isBack, setIsBack] = useState(true);
@@ -21,6 +21,7 @@ export default function Heading(props) {
   const handleBack = () => {
     history.push(getBackUrl());
   };
+
   return (
     // <!-- This example requires Tailwind CSS v2.0+ -->
     <div className="lg:flex lg:items-center lg:justify-between">
@@ -29,8 +30,15 @@ export default function Heading(props) {
         <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
           <div className="mt-2 flex items-center text-sm text-gray-500">
             {/* <!-- Heroicon name: briefcase --> */}
-            <div className="mr-2">{icon}</div>
+            <div className="mr-2">
+              <i className="fas fa-building"></i>
+            </div>
             {count ? count : ' 0 Items'}
+
+            <div className="mx-2">
+              <i className="fas fa-user"></i>
+            </div>
+            {msg}
           </div>
         </div>
       </div>

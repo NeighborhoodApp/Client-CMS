@@ -67,22 +67,22 @@ function App() {
         <Route path="/real-estates/:devId/add/">
           <AddRealEstate />
         </Route>
-        <Route path="/real-estates">
+        {/* <Route path="/real-estates">
           <RealEstate />
-        </Route>
+        </Route> */}
         <Route path="/admin/:id/:estateId/add">
           <AddAdmin />
         </Route>
         <Route path="/admin/:id/:estateId/edit">
           <EditAdmin />
         </Route>
-        <Route exact path="/complexs">
+        {/* <Route exact path="/complexes">
           <Complex />
-        </Route>
-        <Route path="/complexs/:id/edit">
+        </Route> */}
+        <Route path="/complexes/:id/edit">
           <EditComplex />
         </Route>
-        <Route path="/complexs/:estateId/add">
+        <Route path="/complexes/:estateId/add">
           <AddComplex />
         </Route>
         <Route path="/login">

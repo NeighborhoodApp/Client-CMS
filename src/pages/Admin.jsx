@@ -43,7 +43,7 @@ export default function Admin(props) {
   // console.log(complexId);
   const dataPage = {
     count: (admin ? admin.length : 0) + ' Admin',
-    icon: icon(),
+    msg: !complex_admin ? 'No Selected' : complex_admin.foundComplex.RealEstate.name,
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
     // / complexs /: id/:estateId/add
@@ -64,6 +64,17 @@ export default function Admin(props) {
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                   <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <div className="bg-indigo-500 h-full w-full">
+                      <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                        <div className="my-2 mx-2 flex items-center text-sm text-lg text-white">
+                          {/* <!-- Heroicon name: briefcase --> */}
+                          <div className="mr-2">
+                            <i className="fas fa-building text-white"></i>
+                          </div>
+                          {!complex_admin ? null : complex_admin.foundComplex.name}
+                        </div>
+                      </div>
+                    </div>
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
@@ -100,11 +111,23 @@ export default function Admin(props) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {admin
-                          ? admin.map((el) => {
-                              return <BodyAdmin key={el.id} admin={el} />;
-                            })
-                          : null}
+                        {admin ? (
+                          admin.length < 1 ?
+                          (
+                            <tr>
+                              <td colspan="5" className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">Admin not found</div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ) :
+                          admin.map((el) => {
+                            return <BodyAdmin key={el.id} admin={el} />;
+                          })
+                        ) : null}
                         {/*  */}
                       </tbody>
                     </table>

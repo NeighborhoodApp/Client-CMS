@@ -4,3 +4,10 @@ export const actionStage = (stage) => {
     payload: stage,
   };
 };
+
+export const actionSelectedDeveloper = (name) => {
+  return {
+    type: 'SELECTED_DEVELOPER',
+    payload: name,
+  };
+};

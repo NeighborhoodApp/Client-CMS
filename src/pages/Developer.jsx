@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
 import fetchData from '../helpers/fetchData';
-import { actionStage } from '../store/reducers/action';
+import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
 
 export default function Developer() {
   const dispatch = useDispatch();
@@ -12,6 +12,8 @@ export default function Developer() {
 
   useEffect(() => {
     dispatch(fetchData(params));
+
+    // dispatch(actionSelectedDeveloper(null));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -22,13 +24,9 @@ export default function Developer() {
     dispatch(actionStage(null));
   }
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
-
   const dataPage = {
     count: (developers.length > 0 ? developers.length : 0) + ' Developer',
-    icon: icon(),
+    msg: 'No Selected Developer',
     pageTitle: 'Developer',
     btnTitle: 'Add Developer',
     btnAction: '/developers/add',

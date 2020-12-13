@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
 import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
-import { getQueryParams } from '../helpers/getUrlQuery';
+import Swal from 'sweetalert2';
+import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
 
+let loaded = false;
 export default function Complex(props) {
-  const { id, estateId } = props.data;
+  const { estateId } = props.data;
 
-  const history = useHistory();
-  const { params, url } = useRouteMatch();
-  // console.log(params);
+  const { params } = useRouteMatch();
   const devId = estateId || params.realEstedId;
   const dispatch = useDispatch();
   const parameter = {
@@ -21,23 +20,31 @@ export default function Complex(props) {
     headers: true,
     type: 'SET_ESTATE_COMPLEX',
   };
-  // console.log(params);
+
   useEffect(() => {
+    loaded = true;
     dispatch(fetchData(parameter));
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { estate_complex } = useSelector((state) => state.reducerDeveloper);
+  const { estate_complex, loading, stage } = useSelector((state) => state.reducerDeveloper);
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
+  if (loaded && !loading) {
+    // dispatch(actionSelectedDeveloper(estate_complex.Developer.name));
+    loaded = false;
+  }
+
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Complex has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
 
   const dataPage = {
     count: (estate_complex ? estate_complex.Complexes.length : 0) + ' Complexs',
-    icon: icon(),
+    msg: estate_complex ? estate_complex.Developer.name : '',
     pageTitle: 'Complex',
     btnTitle: 'Add Complex',
-    btnAction: `/complexs/${estateId}/add`,
+    btnAction: `/complexes/${estateId}/add`,
   };
 
   return (
@@ -54,6 +61,21 @@ export default function Complex(props) {
               <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                   <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <div className="bg-indigo-500 h-full w-full">
+                      <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
+                        <div className="my-2 mx-2 flex items-center text-sm text-lg text-white">
+                          {/* <!-- Heroicon name: briefcase --> */}
+                          <div className="mr-2">
+                            <i className="fas fa-building text-white"></i>
+                          </div>
+                          {estate_complex ? estate_complex.name : null}
+                          {/* <div className="mx-2">
+                            <i className="fas fa-user text-white"></i>
+                          </div>
+                          Test */}
+                        </div>
+                      </div>
+                    </div>
                     <table className="min-w-full divide-y divide-gray-200">
                       <thead className="bg-gray-50">
                         <tr>
@@ -84,11 +106,23 @@ export default function Complex(props) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {estate_complex
-                          ? estate_complex.Complexes.map((el) => {
+                        {estate_complex ? (
+                          estate_complex.Complexes.length < 1 ? (
+                            <tr>
+                              <td colspan="4" className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">Complex not found</div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ) : (
+                            estate_complex.Complexes.map((el) => {
                               return <BodyComplexs key={el.id} complex={el} realestateName={estate_complex.name} />;
                             })
-                          : null}
+                          )
+                        ) : null}
                         {/*  */}
                       </tbody>
                     </table>

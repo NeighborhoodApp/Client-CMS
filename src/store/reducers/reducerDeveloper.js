@@ -11,6 +11,7 @@ const INIT = {
   msg: '',
   admin: null,
   stage: null, // delete, post, update
+  selectedDeveloper: null, // Developer name
 };
 
 function reducer(state = INIT, action) {
@@ -37,10 +38,16 @@ function reducer(state = INIT, action) {
       return { ...state, developers: newData, stage: 'delete' };
     case 'DELETE_REAL_ESTATE':
       let tempEstate = JSON.parse(JSON.stringify(state.dev_estates));
-      // console.log(action.payload);
       const RealEstates = tempEstate.RealEstates.filter((el) => el.id !== action.payload);
       tempEstate.RealEstates = RealEstates;
       return { ...state, dev_estates: tempEstate, stage: 'delete' };
+    case 'DELETE_COMPLEX':
+      let tempComplex = JSON.parse(JSON.stringify(state.estate_complex));
+      const Complexes = tempComplex.Complexes.filter((el) => el.id !== action.payload);
+      tempComplex.Complexes = Complexes;
+      return { ...state, estate_complex: tempComplex, stage: 'delete' };
+    case 'SELECTED_DEVELOPER':
+      return { ...state, selectedDeveloper: action.payload };
     case 'SET_STAGE':
       return { ...state, stage: action.payload };
     case 'SET_LOADING':

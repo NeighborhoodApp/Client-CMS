@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
-import { actionStage } from '../store/reducers/action';
+import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
 import Swal from 'sweetalert2';
 
+let loaded = false;
 export default function RealEstate(props) {
   const { id } = props.data;
   const dispatch = useDispatch();
@@ -13,28 +14,25 @@ export default function RealEstate(props) {
 
   useEffect(() => {
     dispatch(fetchData(parameter));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    loaded = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { dev_estates, stage, loading } = useSelector((state) => state.reducerDeveloper);
+
+  if (loaded && !loading) {
+    // dispatch(actionSelectedDeveloper(dev_estates.name));
+    loaded = false;
+  }
 
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Real Estate has been deleted`, 'success');
     dispatch(actionStage(null));
   }
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
-
-  console.log('dev_estates', dev_estates);
-
-  // const realEstates = id ? (dev_estates ? dev_estates.RealEstates : []) : dev_estates;
-  const realEstates = dev_estates ? dev_estates.RealEstates : [];
-
   const dataPage = {
-    count: (realEstates ? realEstates.length : 0) + ' Real Estate',
-    icon: icon(),
+    count: (dev_estates ? dev_estates.RealEstates.length : 0) + ' Real Estate',
+    msg: dev_estates ? dev_estates.name : '',
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
     btnAction: `/real-estates/${id}/add`,
@@ -103,17 +101,28 @@ export default function RealEstate(props) {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {dev_estates
-                          ? realEstates.map((el, i) => {
+                          ? (
+                          dev_estates.RealEstates.length < 1 ? (
+                            <tr>
+                              <td colspan="7" className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">Real Estate not found</div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                           ) : 
+                          dev_estates.RealEstates.map((el, i) => {
                               return (
                                 <BodyDevEstates
                                   key={el.id}
                                   number={i + 1}
                                   RealEstate={el}
-                                  devName={id ? dev_estates.name : el.Developer.name}
+                                  devName={dev_estates.name}
                                 />
                               );
-                            })
-                          : null}
+                            })) : null}
                       </tbody>
                     </table>
                   </div>

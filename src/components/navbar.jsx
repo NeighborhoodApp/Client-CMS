@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import Logo from '../logo.svg';
 
@@ -11,6 +12,9 @@ export default function Navbar() {
     e.preventDefault();
     history.push(path);
   };
+
+  // const { selectedDeveloper } = useSelector((state) => state.reducerDeveloper);
+
   return (
     <div>
       <nav className="bg-gray-800 w-full">
@@ -36,21 +40,19 @@ export default function Navbar() {
                   >
                     Developer
                   </NavLink>
-
-                  {/* <NavLink
-                    to="/real-estates"
-                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Real Estate
-                  </NavLink> */}
                 </div>
               </div>
             </div>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
-                {/* <div className="mx-3">
-                  <div className="text-base font-medium text-white">{developer}</div>
-                </div> */}
+                {
+                  // !selectedDeveloper ? '' : 
+                  // <div className="mx-3">
+                  //   <div className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">
+                  //     {'Developer: ' + selectedDeveloper}
+                  //   </div>
+                  // </div>
+                }
                 <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
                   {/* <!-- Heroicon name: bell --> */}
