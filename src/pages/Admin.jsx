@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import Preloading from '../components/preloading';
@@ -11,14 +10,12 @@ import fetchData from '../helpers/fetchData';
 import { actionSeterror, actionStage } from '../store/actions';
 
 export default function Admin(props) {
-  const { id, estateId, complexId } = props.data;
+  const { estateId, complexId } = props.data;
 
-  const history = useHistory();
-  const { params, url } = useRouteMatch();
+  const {  url } = useRouteMatch();
   const arrRoute = url.split('/');
   let admin = null;
   arrRoute.pop();
-  const back = arrRoute.join('/');
 
   const dispatch = useDispatch();
   const parameter = {
@@ -27,15 +24,13 @@ export default function Admin(props) {
     headers: true,
     type: 'SET_COMPLEX_ADMIN',
   };
-  // console.log(params);
+  
   useEffect(() => {
     dispatch(fetchData(parameter));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { complex_admin, loading, error, stage } = useSelector((state) => state.reducerDeveloper);
-
-  // console.log(complex_admin, 'complex_admin');
-
 
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Admin has been deleted`, 'success');
@@ -52,17 +47,11 @@ export default function Admin(props) {
     admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
   }
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
-
-  // console.log(complexId);
   const dataPage = {
     count: (admin ? admin.length : 0) + ' Admin',
     msg: !complex_admin ? 'No Selected' : complex_admin.foundComplex.RealEstate.name,
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
-    // / complexs /: id/:estateId/add
     btnAction: `/admin/${complexId}/${estateId}/add`,
   };
 
@@ -155,7 +144,6 @@ export default function Admin(props) {
           </div>
         </div>
       </main>
-      {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
     </>
   );
 }

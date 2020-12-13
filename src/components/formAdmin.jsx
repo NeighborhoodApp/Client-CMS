@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
@@ -55,10 +55,10 @@ export default function FormWarga(props) {
       status: 'Active',
       RoleId: 2,
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { admin, loading: loadingData } = useSelector((state) => state.reducerDeveloper);
-  console.log('admin', admin);
 
   if (admin && !loaded) {
     const { fullname, email, RoleId, address, RealEstateId, ComplexId } = admin.foundUser;

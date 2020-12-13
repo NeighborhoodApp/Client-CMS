@@ -19,14 +19,12 @@ export default function FormComplex(props) {
   const { params, url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
-  // const back = urlIndex.join('/');
   const back = getHistory();
   const realEstedId = params.estateId;
   const [payload, setPayload] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
-  // const estateId = getQueryParam
 
   const complexId = status === 'edit' ? history.location.state.complexId : -1;
   useEffect(() => {
@@ -46,10 +44,10 @@ export default function FormComplex(props) {
       RealEstateId: realEstedId,
       status: 'Inactive',
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { complex_admin, loading: loadingData } = useSelector((state) => state.reducerDeveloper);
-  // console.log('complex_admin', complex_admin);
 
   if (complex_admin && !loaded) {
     const { name, RealEstateId, status } = complex_admin.foundComplex;

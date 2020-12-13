@@ -9,7 +9,6 @@ import { actionSeterror, actionStage } from '../store/actions';
 import Preloading from '../components/preloading';
 import errorHandler from '../helpers/errorHandler';
 
-let loaded = false;
 export default function Complex(props) {
   const { estateId } = props.data;
 
@@ -24,7 +23,6 @@ export default function Complex(props) {
   };
 
   useEffect(() => {
-    loaded = true;
     dispatch(fetchData(parameter));
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

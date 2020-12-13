@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
-import { actionSelectedDeveloper, actionSeterror, actionStage } from '../store/actions';
+import { actionSeterror, actionStage } from '../store/actions';
 import Swal from 'sweetalert2';
 import Preloading from '../components/preloading';
 import errorHandler from '../helpers/errorHandler';

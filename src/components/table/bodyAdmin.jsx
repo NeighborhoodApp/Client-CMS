@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Swal from 'sweetalert2';
 import fetchData from '../../helpers/fetchData';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
@@ -8,7 +8,6 @@ import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 export default function BodyAdmin(props) {
   const { admin } = props;
   const history = useHistory();
-  const { url } = useRouteMatch();
   const href = getCurrentUrl();
   const dispatch = useDispatch();
   // console.log('body admin', admin)
