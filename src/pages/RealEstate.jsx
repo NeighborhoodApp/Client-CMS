@@ -112,7 +112,7 @@ export default function RealEstate(props) {
                         {dev_estates ? (
                           dev_estates.RealEstates.length < 1 ? (
                             <tr>
-                              <td colspan="7" className="px-6 py-4 whitespace-nowrap">
+                              <td colSpan="7" className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">Real Estate not found</div>

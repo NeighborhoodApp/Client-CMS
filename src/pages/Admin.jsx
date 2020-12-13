@@ -2,10 +2,13 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import Preloading from '../components/preloading';
 import BodyAdmin from '../components/table/bodyAdmin';
+import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
+import { actionSeterror, actionStage } from '../store/actions';
 
 export default function Admin(props) {
   const { id, estateId, complexId } = props.data;
@@ -29,9 +32,21 @@ export default function Admin(props) {
     dispatch(fetchData(parameter));
   }, []);
 
-  const { complex_admin, loading } = useSelector((state) => state.reducerDeveloper);
+  const { complex_admin, loading, error, stage } = useSelector((state) => state.reducerDeveloper);
 
   // console.log(complex_admin, 'complex_admin');
+
+
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Admin has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
+
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
+  }
 
   if (complex_admin) {
     admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
@@ -116,7 +131,7 @@ export default function Admin(props) {
                         {admin ? (
                           admin.length < 1 ? (
                             <tr>
-                              <td colspan="5" className="px-6 py-4 whitespace-nowrap">
+                              <td colSpan="5" className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">Admin not found</div>

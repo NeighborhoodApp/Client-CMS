@@ -1,5 +1,8 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import Swal from 'sweetalert2';
+import fetchData from '../../helpers/fetchData';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 
 export default function BodyAdmin(props) {
@@ -7,6 +10,7 @@ export default function BodyAdmin(props) {
   const history = useHistory();
   const { url } = useRouteMatch();
   const href = getCurrentUrl();
+  const dispatch = useDispatch();
   // console.log('body admin', admin)
   const hanldeClick = (path) => {
     setHistory(href);
@@ -14,7 +18,40 @@ export default function BodyAdmin(props) {
   };
 
   const hanldeDelete = (id) => {
-    console.log('delete' + id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        prosesDelete(id);
+      }
+    });
+  };
+
+  const prosesDelete = async (id) => {
+    const params = {
+      url: `users/${id}`,
+      method: 'DELETE',
+      headers: true,
+      type: 'DELETE_ADMIN',
+      deletedId: id,
+    };
+    dispatch(fetchData(params));
+  };
+
+  const avatar = (name) => {
+    return (
+      <img
+        className="h-10 w-10 rounded-full"
+        src={`https://avatars.dicebear.com/api/avataaars/${name}.svg?mood[]=happy`}
+        alt=""
+      />
+    );
   };
 
   return (
@@ -22,6 +59,7 @@ export default function BodyAdmin(props) {
       <tr>
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex items-center">
+            <div className="flex-shrink-0 h-10 w-10">{avatar(admin.email)}</div>
             <div className="ml-4">
               <div className="text-sm font-medium text-gray-900">{admin.fullname}</div>
             </div>
@@ -58,12 +96,12 @@ export default function BodyAdmin(props) {
             >
               <span>See Member</span>
             </button> */}
-            {/* <button
+            <button
               onClick={() => hanldeDelete(admin.id)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
             >
               <span>Delete</span>
-            </button> */}
+            </button>
           </div>
         </td>
       </tr>

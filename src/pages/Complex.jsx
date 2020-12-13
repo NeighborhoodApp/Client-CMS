@@ -31,11 +31,6 @@ export default function Complex(props) {
 
   const { estate_complex, loading, error, stage } = useSelector((state) => state.reducerDeveloper);
 
-  if (loaded && !loading) {
-    // dispatch(actionSelectedDeveloper(estate_complex.Developer.name));
-    loaded = false;
-  }
-
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Complex has been deleted`, 'success');
     dispatch(actionStage(null));
@@ -118,7 +113,7 @@ export default function Complex(props) {
                         {estate_complex ? (
                           estate_complex.Complexes.length < 1 ? (
                             <tr>
-                              <td colspan="4" className="px-6 py-4 whitespace-nowrap">
+                              <td colSpan="4" className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">Complex not found</div>
