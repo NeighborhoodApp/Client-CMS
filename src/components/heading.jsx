@@ -23,13 +23,11 @@ export default function Heading(props) {
   };
 
   return (
-    // <!-- This example requires Tailwind CSS v2.0+ -->
     <div className="lg:flex lg:items-center lg:justify-between">
       <div className="flex-1 min-w-0">
         <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">{pageTitle}</h2>
         <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
           <div className="mt-2 flex items-center text-sm text-gray-500">
-            {/* <!-- Heroicon name: briefcase --> */}
             <div className="mr-2">
               <i className="fas fa-building"></i>
             </div>

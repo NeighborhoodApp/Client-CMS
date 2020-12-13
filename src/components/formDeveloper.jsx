@@ -28,7 +28,6 @@ export default function FormDeveloper(props) {
       const parameter = { url: 'developers/' + params.id, method: 'GET', headers: true, type: 'SET_DEVELOPER' };
       dispatch({ type: 'SET_DEVELOPER', payload: { foundDeveloper: null }  });
       dispatch(fetchData(parameter));
-      // const dev =
     }
     setPayload({
       name: '',
@@ -36,6 +35,7 @@ export default function FormDeveloper(props) {
       address: '',
       status: 'Active',
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { developer, loading: loadingData } = useSelector((state) => state.reducerDeveloper);

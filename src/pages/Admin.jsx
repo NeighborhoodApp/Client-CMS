@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import Preloading from '../components/preloading';
 import BodyAdmin from '../components/table/bodyAdmin';
+import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
+import { actionSeterror, actionStage } from '../store/actions';
 
 export default function Admin(props) {
-  const { id, estateId, complexId } = props.data;
+  const { estateId, complexId } = props.data;
 
-  const history = useHistory();
-  const { params, url } = useRouteMatch();
+  const {  url } = useRouteMatch();
   const arrRoute = url.split('/');
   let admin = null;
   arrRoute.pop();
-  const back = arrRoute.join('/');
 
   const dispatch = useDispatch();
   const parameter = {
@@ -24,30 +24,34 @@ export default function Admin(props) {
     headers: true,
     type: 'SET_COMPLEX_ADMIN',
   };
-  // console.log(params);
+  
   useEffect(() => {
     dispatch(fetchData(parameter));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { complex_admin, loading } = useSelector((state) => state.reducerDeveloper);
+  const { complex_admin, loading, error, stage } = useSelector((state) => state.reducerDeveloper);
 
-  // console.log(complex_admin, 'complex_admin');
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Admin has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
+
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
+  }
 
   if (complex_admin) {
     admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
   }
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
-
-  // console.log(complexId);
   const dataPage = {
     count: (admin ? admin.length : 0) + ' Admin',
     msg: !complex_admin ? 'No Selected' : complex_admin.foundComplex.RealEstate.name,
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
-    // / complexs /: id/:estateId/add
     btnAction: `/admin/${complexId}/${estateId}/add`,
   };
 
@@ -116,7 +120,7 @@ export default function Admin(props) {
                         {admin ? (
                           admin.length < 1 ? (
                             <tr>
-                              <td colspan="5" className="px-6 py-4 whitespace-nowrap">
+                              <td colSpan="5" className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
                                   <div className="ml-4">
                                     <div className="text-sm font-medium text-gray-900">Admin not found</div>
@@ -140,7 +144,6 @@ export default function Admin(props) {
           </div>
         </div>
       </main>
-      {/* <!-- This example requires Tailwind CSS v2.0+ --> */}
     </>
   );
 }

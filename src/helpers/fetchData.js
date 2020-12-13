@@ -20,7 +20,6 @@ export default function fetchData(option) {
   }
 
   return async (dispatch) => {
-    // console.log(payloadAxios);
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
       const { data } = await axios(payloadAxios);

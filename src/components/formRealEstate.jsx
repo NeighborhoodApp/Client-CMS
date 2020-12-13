@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
@@ -20,11 +20,9 @@ export default function FormRealEstate(props) {
   const { formTitle } = props.data;
   const { url, params } = useRouteMatch();
   const urlIndex = url.split('/');
-  const status = urlIndex.pop();
   const back = getHistory();
   console.log('back', back);
   urlIndex.pop();
-  // const backEdit = urlIndex.join('/');
   const [payload, setPayload] = useState(defaultValue);
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -50,6 +48,7 @@ export default function FormRealEstate(props) {
       DeveloperId: params.devId,
       status: 'Inactive',
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { estate_complex, loading: loadingData } = useSelector((state) => state.reducerDeveloper);

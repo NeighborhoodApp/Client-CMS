@@ -49,6 +49,12 @@ function reducer(state = INIT, action) {
       const Complexes = tempComplex.Complexes.filter((el) => el.id !== action.payload);
       tempComplex.Complexes = Complexes;
       return { ...state, estate_complex: tempComplex, stage: 'delete' };
+    case 'DELETE_ADMIN':
+      let tempAdmin = JSON.parse(JSON.stringify(state.complex_admin));
+      console.log(tempAdmin, 'tempAdmin');
+      const admin = tempAdmin.foundComplex.Users.filter((el) => el.id !== action.payload);
+      tempAdmin.foundComplex.Users = admin;
+      return { ...state, complex_admin: tempAdmin, stage: 'delete' };
     case 'SELECTED_DEVELOPER':
       return { ...state, selectedDeveloper: action.payload };
     case 'SET_STAGE':

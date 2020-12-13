@@ -91,9 +91,21 @@ export default function Developer() {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {developers.map((el) => {
-                          return <BodyDevelopers key={el.id} developer={el} />;
-                        })}
+                        {developers.length < 1 ? (
+                          <tr>
+                            <td colSpan="5" className="px-6 py-4 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="ml-4">
+                                  <div className="text-sm font-medium text-gray-900">Developer not found</div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : (
+                          developers.map((el) => {
+                            return <BodyDevelopers key={el.id} developer={el} />;
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>

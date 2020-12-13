@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
-import FormRealEstate from '../components/formRealEstate';
 import { getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
 import { actionSetLogin } from '../store/actions';
 import Admin from './Admin';
