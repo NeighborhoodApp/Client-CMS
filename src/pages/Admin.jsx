@@ -130,7 +130,7 @@ export default function Admin(props) {
                             </tr>
                           ) : (
                             admin.map((el) => {
-                              return <BodyAdmin key={el.id} admin={el} />;
+                              return <BodyAdmin key={el.id} admin={el} count={admin.length} />;
                             })
                           )
                         ) : null}

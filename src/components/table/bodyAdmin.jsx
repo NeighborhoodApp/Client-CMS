@@ -6,7 +6,7 @@ import fetchData from '../../helpers/fetchData';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 
 export default function BodyAdmin(props) {
-  const { admin } = props;
+  const { admin, count } = props;
   const history = useHistory();
   const href = getCurrentUrl();
   const dispatch = useDispatch();
@@ -95,12 +95,14 @@ export default function BodyAdmin(props) {
             >
               <span>See Member</span>
             </button> */}
-            <button
-              onClick={() => hanldeDelete(admin.id)}
-              className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
-            >
-              <span>Delete</span>
-            </button>
+            {count < 2 ? null : (
+              <button
+                onClick={() => hanldeDelete(admin.id)}
+                className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
+              >
+                <span>Delete</span>
+              </button>
+            )}
           </div>
         </td>
       </tr>

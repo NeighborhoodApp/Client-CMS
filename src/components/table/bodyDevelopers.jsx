@@ -68,7 +68,7 @@ export default function BodyDevelopers(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="text-sm text-gray-900">{developer.address}</div>
         </td>
-        <td className="px-6 py-4 whitespace-nowrap">
+        {/* <td className="px-6 py-4 whitespace-nowrap">
           <span
             className={
               (developer.status === 'Inactive' ? 'bg-gray-200' : 'bg-green-100') +
@@ -77,7 +77,7 @@ export default function BodyDevelopers(props) {
           >
             {developer.status}
           </span>
-        </td>
+        </td> */}
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{developer.Role.role}</td>
 
         <td className="px-6 py-4 whitespace-nowrap">
