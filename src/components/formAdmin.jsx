@@ -22,9 +22,9 @@ let loaded = false;
 export default function FormWarga(props) {
   const { formTitle } = props.data;
   const { params, url } = useRouteMatch();
-  const [loading, setLoading] = useState(false);
   const urlIndex = url.split('/');
-  const status = urlIndex.pop();
+  const formType = urlIndex.pop();
+  const [loading, setLoading] = useState(false);
   const back = getHistory();
   const userId = params.id;
 
@@ -36,13 +36,13 @@ export default function FormWarga(props) {
   useEffect(() => {
     loaded = false;
     dispatch({ type: 'SET_ADMIN', payload: null });
-    if (status === 'edit') {
-        const parameter = {
-          url: `users/${userId}`,
-          method: 'GET',
-          headers: true,
-          type: 'SET_ADMIN',
-        };
+    if (formType === 'edit') {
+      const parameter = {
+        url: `users/${userId}`,
+        method: 'GET',
+        headers: true,
+        type: 'SET_ADMIN',
+      };
       dispatch(fetchData(parameter));
     }
     setPayload({
@@ -87,8 +87,8 @@ export default function FormWarga(props) {
   };
 
   const prosesSubmit = async (payload) => {
-    const method = status === 'edit' ? 'PUT' : 'POST';
-    const url = status === 'edit' ? `users/${userId}` : `users/register-admin`;
+    const method = formType === 'edit' ? 'PUT' : 'POST';
+    const url = formType === 'edit' ? `users/${userId}` : `users/register-admin`;
     setLoading(true);
     try {
       const { data } = await axios({
@@ -123,7 +123,7 @@ export default function FormWarga(props) {
 
   return (
     <>
-      {loadingData ? <Preloading /> : null}
+      {loadingData && formType !== 'add' ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">
@@ -169,7 +169,7 @@ export default function FormWarga(props) {
                   tabIndex={0}
                   value={payload.email}
                   type="email"
-                  readOnly={status === 'edit' ? true : false}
+                  readOnly={formType === 'edit' ? true : false}
                   onChange={(e) => handleForm(e)}
                   placeholder="Email"
                   className="py-1 px-1 outline-none block h-full w-full"

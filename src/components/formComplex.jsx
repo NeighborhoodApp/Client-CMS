@@ -18,7 +18,7 @@ export default function FormComplex(props) {
   const { formTitle } = props.data;
   const { params, url } = useRouteMatch();
   const urlIndex = url.split('/');
-  const status = urlIndex.pop();
+  const formType = urlIndex.pop();
   const back = getHistory();
   const realEstedId = params.estateId;
   const [payload, setPayload] = useState(defaultValue);
@@ -26,11 +26,11 @@ export default function FormComplex(props) {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const complexId = status === 'edit' ? history.location.state.complexId : -1;
+  const complexId = formType === 'edit' ? history.location.state.complexId : -1;
   useEffect(() => {
     loaded = false;
     dispatch({ type: 'SET_COMPLEX_ADMIN', payload: null });
-    if (status === 'edit') {
+    if (formType === 'edit') {
       const parameter = {
         url: `complexes/${complexId}`,
         method: 'GET',
@@ -72,8 +72,8 @@ export default function FormComplex(props) {
   };
 
   const prosesSubmit = async (payload) => {
-    const method = status === 'edit' ? 'PUT' : 'POST';
-    const url = status === 'edit' ? `complexes/${complexId}` : `complexes`;
+    const method = formType === 'edit' ? 'PUT' : 'POST';
+    const url = formType === 'edit' ? `complexes/${complexId}` : `complexes`;
     setLoading(true);
     try {
       const { data } = await axios({
@@ -108,7 +108,7 @@ export default function FormComplex(props) {
 
   return (
     <>
-      {loadingData ? <Preloading /> : null}
+      {loadingData && formType !== 'add' ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">

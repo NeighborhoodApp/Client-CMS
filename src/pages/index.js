@@ -1,0 +1,15 @@
+export { default as PageNotFound } from './404';
+export { default as AddAdmin } from './AddAdmin';
+export { default as AddComplex } from './AddComplex';
+export { default as AddDeveloper } from './AddDeveloper';
+export { default as AddRealEstate } from './AddRealEstate';
+export { default as Admin } from './Admin';
+export { default as Complex } from './Complex';
+export { default as Developer } from './Developer';
+export { default as EditAdmin } from './EditAdmin';
+export { default as EditComplex } from './EditComplex';
+export { default as EditDeveloper } from './EditDeveloper';
+export { default as EditRealEstate } from './EditRealEstate';
+export { default as Home } from './Home';
+export { default as Login } from './Login';
+export { default as RealEstate } from './RealEstate';
