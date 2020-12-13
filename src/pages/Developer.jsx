@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import Heading from '../components/heading';
+import Preloading from '../components/preloading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
 import fetchData from '../helpers/fetchData';
-import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
+import { actionStage } from '../store/reducers/action';
 
 export default function Developer() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ export default function Developer() {
   
   return (
     <>
+      {loading ? <Preloading /> : null}
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />

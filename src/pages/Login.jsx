@@ -151,7 +151,7 @@ export default function Login() {
                     </svg>
                   )}
                 </span>
-                Sign in
+                {loading ? 'Processing' : 'Sign in'}
               </button>
             </div>
           </form>

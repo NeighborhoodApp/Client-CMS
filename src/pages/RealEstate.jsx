@@ -5,6 +5,7 @@ import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
 import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
 import Swal from 'sweetalert2';
+import Preloading from '../components/preloading';
 
 let loaded = false;
 export default function RealEstate(props) {
@@ -40,6 +41,7 @@ export default function RealEstate(props) {
 
   return (
     <>
+      {loading ? <Preloading /> : null}
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />
@@ -100,8 +102,7 @@ export default function RealEstate(props) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {dev_estates
-                          ? (
+                        {dev_estates ? (
                           dev_estates.RealEstates.length < 1 ? (
                             <tr>
                               <td colspan="7" className="px-6 py-4 whitespace-nowrap">
@@ -112,17 +113,14 @@ export default function RealEstate(props) {
                                 </div>
                               </td>
                             </tr>
-                           ) : 
-                          dev_estates.RealEstates.map((el, i) => {
+                          ) : (
+                            dev_estates.RealEstates.map((el, i) => {
                               return (
-                                <BodyDevEstates
-                                  key={el.id}
-                                  number={i + 1}
-                                  RealEstate={el}
-                                  devName={dev_estates.name}
-                                />
+                                <BodyDevEstates key={el.id} number={i + 1} RealEstate={el} devName={dev_estates.name} />
                               );
-                            })) : null}
+                            })
+                          )
+                        ) : null}
                       </tbody>
                     </table>
                   </div>

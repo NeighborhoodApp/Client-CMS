@@ -5,6 +5,7 @@ import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
 import { getHistory } from '../helpers/getUrlQuery';
+import Preloading from './preloading';
 
 const defaultValue = {
   fullname: '',
@@ -54,7 +55,7 @@ export default function FormWarga(props) {
     });
   }, []);
 
-  const { admin } = useSelector((state) => state.reducerDeveloper);
+  const { admin, loading: loadingData } = useSelector((state) => state.reducerDeveloper);
   console.log('admin', admin);
 
   if (admin && !loaded) {
@@ -119,6 +120,7 @@ export default function FormWarga(props) {
 
   return (
     <>
+      {loadingData ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">
@@ -202,7 +204,7 @@ export default function FormWarga(props) {
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               {loading ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
-              <span>Save</span>
+              <span>{loading ? 'Processing' : 'Save'}</span>
             </button>
             <button
               onClick={() => hanldeClick(back)}

@@ -6,6 +6,7 @@ import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
 import Swal from 'sweetalert2';
 import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
+import Preloading from '../components/preloading';
 
 let loaded = false;
 export default function Complex(props) {
@@ -49,6 +50,7 @@ export default function Complex(props) {
 
   return (
     <>
+      {loading ? <Preloading /> : null}
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />

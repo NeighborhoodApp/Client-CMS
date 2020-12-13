@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Heading from '../components/heading';
+import Preloading from '../components/preloading';
 import BodyAdmin from '../components/table/bodyAdmin';
 import fetchData from '../helpers/fetchData';
 
@@ -28,7 +29,7 @@ export default function Admin(props) {
     dispatch(fetchData(parameter));
   }, []);
 
-  const { complex_admin } = useSelector((state) => state.reducerDeveloper);
+  const { complex_admin, loading } = useSelector((state) => state.reducerDeveloper);
 
   // console.log(complex_admin, 'complex_admin');
 
@@ -52,6 +53,7 @@ export default function Admin(props) {
 
   return (
     <>
+      {loading ? <Preloading /> : null}
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />
@@ -112,8 +114,7 @@ export default function Admin(props) {
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
                         {admin ? (
-                          admin.length < 1 ?
-                          (
+                          admin.length < 1 ? (
                             <tr>
                               <td colspan="5" className="px-6 py-4 whitespace-nowrap">
                                 <div className="flex items-center">
@@ -123,10 +124,11 @@ export default function Admin(props) {
                                 </div>
                               </td>
                             </tr>
-                          ) :
-                          admin.map((el) => {
-                            return <BodyAdmin key={el.id} admin={el} />;
-                          })
+                          ) : (
+                            admin.map((el) => {
+                              return <BodyAdmin key={el.id} admin={el} />;
+                            })
+                          )
                         ) : null}
                         {/*  */}
                       </tbody>

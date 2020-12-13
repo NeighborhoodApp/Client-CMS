@@ -5,6 +5,7 @@ import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
 import { getHistory } from '../helpers/getUrlQuery';
+import Preloading from './preloading';
 
 const defaultValue = {
   name: '',
@@ -51,7 +52,7 @@ export default function FormRealEstate(props) {
     });
   }, []);
 
-  const { estate_complex } = useSelector((state) => state.reducerDeveloper);
+  const { estate_complex, loading: loadingData } = useSelector((state) => state.reducerDeveloper);
 
   if (estate_complex && !loaded) {
     const { name, address, coordinate, DeveloperId, status } = estate_complex;
@@ -114,6 +115,7 @@ export default function FormRealEstate(props) {
 
   return (
     <>
+      {loadingData ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">
@@ -195,8 +197,8 @@ export default function FormRealEstate(props) {
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
-              { loading ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
-              <span>Save</span>
+              {loading ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
+              <span>{loading ? 'Processing' : 'Save'}</span>
             </button>
             <button
               onClick={() => hanldeClick(back)}
