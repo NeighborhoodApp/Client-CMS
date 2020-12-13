@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
+import fetchData from '../helpers/fetchData';
+import { getHistory } from '../helpers/getUrlQuery';
 
 const defaultValue = {
   fullname: '',
@@ -13,25 +16,60 @@ const defaultValue = {
   status: 'Active',
 };
 
+let loaded = false;
 export default function FormWarga(props) {
   const { formTitle } = props.data;
-  const { url } = useRouteMatch();
+  const { params, url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
-  const back = urlIndex.join('/');
-  console.log(back);
+  // const back = urlIndex.join('/');
+  const back = getHistory();
+  // console.log(back);
+  const userId = params.id;
 
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
-  const params = useParams();
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    defaultValue.RealEstateId = params.realEstedId;
-    defaultValue.ComplexId = params.complexId;
-    setPayload(defaultValue);
+    loaded = false;
+    dispatch({ type: 'SET_ADMIN', payload: null });
+    if (status === 'edit') {
+        const parameter = {
+          url: `users/${userId}`,
+          method: 'GET',
+          headers: true,
+          type: 'SET_ADMIN',
+        };
+      dispatch(fetchData(parameter));
+    }
+    setPayload({
+      fullname: '',
+      address: '',
+      email: '',
+      password: 'admin123',
+      RealEstateId: +params.estateId,
+      ComplexId: +params.id,
+      status: 'Active',
+    });
   }, []);
+
+  const { admin } = useSelector((state) => state.reducerDeveloper);
+  console.log('admin', admin);
+
+  if (admin && !loaded) {
+    const { fullname, email, address, RealEstateId, ComplexId } = admin.foundUser;
+    defaultValue.fullname = fullname;
+    defaultValue.address = address;
+    defaultValue.email = email;
+    defaultValue.RealEstateId = RealEstateId;
+    defaultValue.ComplexId = ComplexId;
+    setPayload(defaultValue);
+    loaded = true;
+  }
 
   const hanldeClick = (path) => {
     history.push(path);
@@ -39,6 +77,7 @@ export default function FormWarga(props) {
 
   const submitForm = (e) => {
     e.preventDefault();
+    // console.log(payload)
     if (payload.fullname && payload.address && payload.email) {
       prosesSubmit(payload);
     } else {
@@ -47,10 +86,12 @@ export default function FormWarga(props) {
   };
 
   const prosesSubmit = async (payload) => {
+    const method = status === 'edit' ? 'PUT' : 'POST';
+    const url = status === 'edit' ? `users/${userId}` : `users/register-admin`;
     try {
       const { data } = await axios({
-        url: 'users/register-admin',
-        method: 'POST',
+        url: url,
+        method: method,
         data: payload,
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -58,8 +99,8 @@ export default function FormWarga(props) {
       });
 
       if (data) {
-        console.log(data.msg);
-        history.push(back + '/members');
+        console.log(data);
+        history.push(back);
       }
     } catch (error) {
       const msg = errorHandler(error);
@@ -123,6 +164,7 @@ export default function FormWarga(props) {
                   tabIndex={0}
                   value={payload.email}
                   type="email"
+                  readOnly={status === 'edit' ? true : false}
                   onChange={(e) => handleForm(e)}
                   placeholder="Email"
                   className="py-1 px-1 outline-none block h-full w-full"
@@ -163,7 +205,7 @@ export default function FormWarga(props) {
               <span>Save</span>
             </button>
             <button
-              onClick={() => hanldeClick(back + '/members')}
+              onClick={() => hanldeClick(back)}
               type="reset"
               disabled={loadingEdit || loadingAdd}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"

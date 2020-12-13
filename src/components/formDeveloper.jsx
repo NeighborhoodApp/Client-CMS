@@ -26,8 +26,8 @@ export default function FormDeveloper(props) {
     if (params.id) {
       loaded = false;
       const parameter = { url: 'developers/' + params.id, method: 'GET', headers: true, type: 'SET_DEVELOPER' };
-      dispatch(fetchData(parameter));
       dispatch({ type: 'SET_DEVELOPER', payload: { foundDeveloper: null }  });
+      dispatch(fetchData(parameter));
       // const dev =
     }
     setPayload({

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
+import { getDeveloper } from '../helpers/setData';
 import Logo from '../logo.svg';
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [usermenuOpen, setUsermenuOpen] = useState(false);
   const history = useHistory();
+  const [developer] = useState(getDeveloper());
 
   const handlePage = (e, path) => {
     e.preventDefault();
@@ -48,6 +50,9 @@ export default function Navbar() {
             </div>
             <div className="hidden md:block">
               <div className="ml-4 flex items-center md:ml-6">
+                <div className="mx-3">
+                  <div className="text-base font-medium text-white">{developer}</div>
+                </div>
                 <button className="bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
                   {/* <!-- Heroicon name: bell --> */}
@@ -191,6 +196,7 @@ export default function Navbar() {
               Real EState
             </NavLink>
           </div>
+
           <div className="pt-4 pb-3 border-t border-gray-700">
             <div className="flex items-center px-5">
               <div className="flex-shrink-0">
@@ -199,6 +205,9 @@ export default function Navbar() {
                   src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
                   alt=""
                 />
+              </div>
+              <div className="ml-3">
+                <div className="text-base font-medium text-white">Tom Cook</div>
               </div>
               <div className="ml-3">
                 <div className="text-base font-medium leading-none text-white">Tom Cook</div>

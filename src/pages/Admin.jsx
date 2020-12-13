@@ -6,7 +6,9 @@ import Heading from '../components/heading';
 import BodyAdmin from '../components/table/bodyAdmin';
 import fetchData from '../helpers/fetchData';
 
-export default function Admin() {
+export default function Admin(props) {
+  const { id, estateId, complexId } = props.data;
+
   const history = useHistory();
   const { params, url } = useRouteMatch();
   const arrRoute = url.split('/');
@@ -16,7 +18,7 @@ export default function Admin() {
 
   const dispatch = useDispatch();
   const parameter = {
-    url: `complexes/${params.complexId}`,
+    url: `complexes/${complexId}`,
     method: 'GET',
     headers: true,
     type: 'SET_COMPLEX_ADMIN',
@@ -28,7 +30,7 @@ export default function Admin() {
 
   const { complex_admin } = useSelector((state) => state.reducerDeveloper);
 
-  console.log(complex_admin, 'complex_admin');
+  // console.log(complex_admin, 'complex_admin');
 
   if (complex_admin) {
     admin = complex_admin.foundComplex.Users.filter((el) => el.RoleId === 2);
@@ -38,12 +40,14 @@ export default function Admin() {
     return <i className="fas fa-building "></i>;
   };
 
+  // console.log(complexId);
   const dataPage = {
     count: (admin ? admin.length : 0) + ' Admin',
     icon: icon(),
     pageTitle: 'Admin Complex',
     btnTitle: 'Add Admin',
-    btnAction: url + '/addadmin',
+    // / complexs /: id/:estateId/add
+    btnAction: `/admin/${complexId}/${estateId}/add`,
   };
 
   return (

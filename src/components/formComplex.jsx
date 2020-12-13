@@ -1,31 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
+import fetchData from '../helpers/fetchData';
+import { getHistory } from '../helpers/getUrlQuery';
 
 const defaultValue = {
   name: '',
   RealEstateId: '',
   status: 'Inactive',
 };
+
+let loaded = false;
 export default function FormComplex(props) {
   const { formTitle } = props.data;
-  const { url } = useRouteMatch();
+  const { params, url } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
-  const back = urlIndex.join('/');
-  console.log(back);
-
+  // const back = urlIndex.join('/');
+  const back = getHistory();
+  const developerId = params.id;
+  const realEstedId = params.estateId;
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
-  const params = useParams();
+  const dispatch = useDispatch();
+  // const estateId = getQueryParam
 
+  const complexId = status === 'edit' ? history.location.state.complexId : -1;
   useEffect(() => {
-    defaultValue.RealEstateId = params.realEstedId;
-    setPayload(defaultValue);
+    loaded = false;
+    dispatch({ type: 'SET_COMPLEX_ADMIN', payload: null });
+    if (status === 'edit') {
+      const parameter = {
+        url: `complexes/${complexId}`,
+        method: 'GET',
+        headers: true,
+        type: 'SET_COMPLEX_ADMIN',
+      };
+      dispatch(fetchData(parameter));
+    }
+    setPayload({
+      name: '',
+      RealEstateId: realEstedId,
+      status: 'Inactive',
+    });
   }, []);
+
+  const { complex_admin } = useSelector((state) => state.reducerDeveloper);
+  // console.log('complex_admin', complex_admin);
+
+  if (complex_admin && !loaded) {
+    const { name, RealEstateId, status } = complex_admin.foundComplex;
+    defaultValue.name = name;
+    defaultValue.RealEstateId = RealEstateId;
+    defaultValue.status = status;
+    setPayload(defaultValue);
+    loaded = true;
+  }
 
   const hanldeClick = (path) => {
     history.push(path);
@@ -41,10 +75,12 @@ export default function FormComplex(props) {
   };
 
   const prosesSubmit = async (payload) => {
+    const method = status === 'edit' ? 'PUT' : 'POST';
+    const url = status === 'edit' ? `complexes/${complexId}` : `complexes`;
     try {
       const { data } = await axios({
-        url: 'complexes',
-        method: 'POST',
+        url: url,
+        method: method,
         data: payload,
         headers: {
           access_token: localStorage.getItem('access_token'),
@@ -91,7 +127,7 @@ export default function FormComplex(props) {
                   id="name"
                   name="name"
                   tabIndex={0}
-                  value={payload.title}
+                  value={payload.name}
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}

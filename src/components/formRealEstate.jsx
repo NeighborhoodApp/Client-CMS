@@ -4,6 +4,7 @@ import { useHistory, useParams, useRouteMatch } from 'react-router-dom';
 import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
+import { getHistory } from '../helpers/getUrlQuery';
 
 const defaultValue = {
   name: '',
@@ -16,29 +17,27 @@ const defaultValue = {
 let loaded = false;
 export default function FormRealEstate(props) {
   const { formTitle } = props.data;
-  const { url } = useRouteMatch();
+  const { url, params } = useRouteMatch();
   const urlIndex = url.split('/');
   const status = urlIndex.pop();
-  const back = urlIndex.join('/');
+  const back = getHistory();
+  console.log('back', back);
   urlIndex.pop();
-  const backEdit = urlIndex.join('/');
+  // const backEdit = urlIndex.join('/');
   const [payload, setPayload] = useState(defaultValue);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [loadingAdd, setLoadingAdd] = useState(false);
   const history = useHistory();
-  const params = useParams();
-  const realEstateId = params.realEsttateId;
+  const realEstateId = params.id;
   const dispatch = useDispatch();
-  console.log(params);
+  // console.log(params);
   const parameter = {
     url: `real-estates/${params.realEstedId}`,
     method: 'GET',
     headers: true,
     type: 'SET_ESTATE_COMPLEX',
   };
-  // dispatch(fetchData(parameter));
-  // const { estate_complex } = useSelector((state) => state.reducerDeveloper);
-
+  
   useEffect(() => {
     if (realEstateId) {
       loaded = false;
@@ -48,14 +47,14 @@ export default function FormRealEstate(props) {
           headers: true,
           type: 'SET_ESTATE_COMPLEX',
         };
-      dispatch(fetchData(parameter));
       dispatch({ type: 'SET_ESTATE_COMPLEX', payload: { foundRealEstate: null } });
+      dispatch(fetchData(parameter));
     }
     setPayload({
       name: '',
       address: '',
       coordinate: '',
-      DeveloperId: params.id,
+      DeveloperId: params.devId,
       status: 'Inactive',
     });
   }, []);
@@ -102,7 +101,7 @@ export default function FormRealEstate(props) {
 
       if (data) {
         console.log(data.msg);
-        history.push(realEstateId ? backEdit : back);
+        history.push(back);
       }
     } catch (error) {
       const msg = errorHandler(error);
@@ -206,7 +205,7 @@ export default function FormRealEstate(props) {
               <span>Save</span>
             </button>
             <button
-              onClick={() => hanldeClick(realEstateId ? backEdit : back)}
+              onClick={() => hanldeClick(back)}
               type="reset"
               disabled={loadingEdit || loadingAdd}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"
