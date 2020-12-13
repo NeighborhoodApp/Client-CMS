@@ -5,8 +5,9 @@ import Heading from '../components/heading';
 import BodyComplexs from '../components/table/bodyComplex.jsx';
 import fetchData from '../helpers/fetchData';
 import Swal from 'sweetalert2';
-import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
+import { actionSeterror, actionStage } from '../store/actions';
 import Preloading from '../components/preloading';
+import errorHandler from '../helpers/errorHandler';
 
 let loaded = false;
 export default function Complex(props) {
@@ -28,7 +29,7 @@ export default function Complex(props) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { estate_complex, loading, stage } = useSelector((state) => state.reducerDeveloper);
+  const { estate_complex, loading, error, stage } = useSelector((state) => state.reducerDeveloper);
 
   if (loaded && !loading) {
     // dispatch(actionSelectedDeveloper(estate_complex.Developer.name));
@@ -38,6 +39,12 @@ export default function Complex(props) {
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Complex has been deleted`, 'success');
     dispatch(actionStage(null));
+  }
+
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
   }
 
   const dataPage = {

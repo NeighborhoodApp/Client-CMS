@@ -4,8 +4,9 @@ import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import Preloading from '../components/preloading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
+import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
-import { actionStage } from '../store/reducers/action';
+import { actionSeterror, actionStage } from '../store/actions';
 
 export default function Developer() {
   const dispatch = useDispatch();
@@ -18,11 +19,17 @@ export default function Developer() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
-  const { developers, stage, loading } = useSelector((state) => state.reducerDeveloper);
+  const { developers, stage, loading, error } = useSelector((state) => state.reducerDeveloper);
 
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Developer has been deleted`, 'success');
     dispatch(actionStage(null));
+  }
+
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
   }
 
   const dataPage = {

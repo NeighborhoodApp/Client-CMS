@@ -15,6 +15,7 @@ const defaultValue = {
   RealEstateId: null,
   ComplexId: null,
   status: 'Active',
+  RoleId: 2,
 };
 
 let loaded = false;
@@ -52,6 +53,7 @@ export default function FormWarga(props) {
       RealEstateId: +params.estateId,
       ComplexId: +params.id,
       status: 'Active',
+      RoleId: 2,
     });
   }, []);
 
@@ -59,9 +61,10 @@ export default function FormWarga(props) {
   console.log('admin', admin);
 
   if (admin && !loaded) {
-    const { fullname, email, address, RealEstateId, ComplexId } = admin.foundUser;
+    const { fullname, email, RoleId, address, RealEstateId, ComplexId } = admin.foundUser;
     defaultValue.fullname = fullname;
     defaultValue.address = address;
+    defaultValue.RoleId = RoleId;
     defaultValue.email = email;
     defaultValue.RealEstateId = RealEstateId;
     defaultValue.ComplexId = ComplexId;

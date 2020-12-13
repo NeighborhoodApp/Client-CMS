@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
-import { actionSelectedDeveloper, actionStage } from '../store/reducers/action';
+import { actionSelectedDeveloper, actionSeterror, actionStage } from '../store/actions';
 import Swal from 'sweetalert2';
 import Preloading from '../components/preloading';
+import errorHandler from '../helpers/errorHandler';
 
 let loaded = false;
 export default function RealEstate(props) {
@@ -19,7 +20,7 @@ export default function RealEstate(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { dev_estates, stage, loading } = useSelector((state) => state.reducerDeveloper);
+  const { dev_estates, stage, loading, error } = useSelector((state) => state.reducerDeveloper);
 
   if (loaded && !loading) {
     // dispatch(actionSelectedDeveloper(dev_estates.name));
@@ -29,6 +30,12 @@ export default function RealEstate(props) {
   if (stage === 'delete' && !loading) {
     Swal.fire('Deleted!', `Real Estate has been deleted`, 'success');
     dispatch(actionStage(null));
+  }
+
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
   }
 
   const dataPage = {
