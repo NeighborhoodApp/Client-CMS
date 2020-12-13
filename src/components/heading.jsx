@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
+import { getBackUrl, getCurrentUrl, setHistory } from '../helpers/getUrlQuery';
 
 
 export default function Heading(props) {
-  const { count, icon, pageTitle, btnTitle, btnAction } = props.data;
+  const { count, msg, pageTitle, btnTitle, btnAction } = props.data;
   const history = useHistory();
   const href = getCurrentUrl();
+  const [isBack, setIsBack] = useState(true);
+
+  useEffect(() => {
+    setIsBack(window.location.pathname === getCurrentUrl());
+  });
 
   const handleAddForm = () => {
     setHistory(href);
     history.push(btnAction);
   };
+
+  const handleBack = () => {
+    history.push(getBackUrl());
+  };
+
   return (
     // <!-- This example requires Tailwind CSS v2.0+ -->
     <div className="lg:flex lg:items-center lg:justify-between">
@@ -21,14 +31,36 @@ export default function Heading(props) {
           <div className="mt-2 flex items-center text-sm text-gray-500">
             {/* <!-- Heroicon name: briefcase --> */}
             <div className="mr-2">
-              {icon}
+              <i className="fas fa-building"></i>
             </div>
             {count ? count : ' 0 Items'}
+
+            <div className="mx-2">
+              <i className="fas fa-user"></i>
+            </div>
+            {msg}
           </div>
         </div>
       </div>
       {props.addForm !== 'null' ? (
         <div className="mt-5 flex lg:mt-0 lg:ml-4">
+          {isBack ? null : (
+            <span className="block">
+              <button
+                type="button"
+                onClick={() => handleBack()}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-white-700 text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              >
+                {/* <!-- Heroicon name: pencil --> */}
+                {}
+                <div className="-ml-1 mr-2 h-5 w-5 text-wahite-700">
+                  <i className="fas fa-arrow-left"></i>
+                </div>
+                Back
+              </button>
+            </span>
+          )}
+
           <span className="block">
             <button
               type="button"

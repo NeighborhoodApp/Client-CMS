@@ -58,12 +58,12 @@ export default function BodyAdmin(props) {
             >
               <span>See Member</span>
             </button> */}
-            <button
+            {/* <button
               onClick={() => hanldeDelete(admin.id)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
             >
               <span>Delete</span>
-            </button>
+            </button> */}
           </div>
         </td>
       </tr>

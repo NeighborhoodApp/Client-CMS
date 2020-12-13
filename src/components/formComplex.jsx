@@ -5,6 +5,7 @@ import { axios } from '../config/Axios';
 import errorHandler from '../helpers/errorHandler';
 import fetchData from '../helpers/fetchData';
 import { getHistory } from '../helpers/getUrlQuery';
+import Preloading from './preloading';
 
 const defaultValue = {
   name: '',
@@ -20,11 +21,9 @@ export default function FormComplex(props) {
   const status = urlIndex.pop();
   // const back = urlIndex.join('/');
   const back = getHistory();
-  const developerId = params.id;
   const realEstedId = params.estateId;
   const [payload, setPayload] = useState(defaultValue);
-  const [loadingEdit, setLoadingEdit] = useState(false);
-  const [loadingAdd, setLoadingAdd] = useState(false);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   // const estateId = getQueryParam
@@ -49,7 +48,7 @@ export default function FormComplex(props) {
     });
   }, []);
 
-  const { complex_admin } = useSelector((state) => state.reducerDeveloper);
+  const { complex_admin, loading: loadingData } = useSelector((state) => state.reducerDeveloper);
   // console.log('complex_admin', complex_admin);
 
   if (complex_admin && !loaded) {
@@ -77,6 +76,7 @@ export default function FormComplex(props) {
   const prosesSubmit = async (payload) => {
     const method = status === 'edit' ? 'PUT' : 'POST';
     const url = status === 'edit' ? `complexes/${complexId}` : `complexes`;
+    setLoading(true);
     try {
       const { data } = await axios({
         url: url,
@@ -94,6 +94,8 @@ export default function FormComplex(props) {
     } catch (error) {
       const msg = errorHandler(error);
       console.log(msg);
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -108,6 +110,7 @@ export default function FormComplex(props) {
 
   return (
     <>
+      {loadingData ? <Preloading /> : null}
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">
@@ -140,17 +143,17 @@ export default function FormComplex(props) {
           </div>
           <div className="border-t mt-6 pt-3">
             <button
-              disabled={loadingEdit || loadingAdd}
+              disabled={loading}
               type="submit"
               className="rounded text-gray-100 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
-              {loadingAdd || loadingEdit ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
-              <span>Save</span>
+              {loading ? <i className="fas fa-spinner fa-spin mr-2"></i> : ''}
+              <span>{loading ? 'Processing' : 'Save'}</span>
             </button>
             <button
               onClick={() => hanldeClick(back)}
               type="reset"
-              disabled={loadingEdit || loadingAdd}
+              disabled={loading}
               className="rounded ml-3 text-gray-100 px-3 py-1 bg-gray-500 hover:shadow-inner focus:outline-none hover:bg-gray-700 transition-all duration-300"
             >
               <span>Cancel</span>

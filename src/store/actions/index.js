@@ -1,10 +1,27 @@
-
-const filterFilm = (film) => {
+export const actionStage = (stage) => {
   return {
-    type: 'SET_MOVIE_FILTER', payload: film
-  }
-}
+    type: 'SET_STAGE',
+    payload: stage,
+  };
+};
 
-export {
-  filterFilm
-}
+export const actionSelectedDeveloper = (name) => {
+  return {
+    type: 'SELECTED_DEVELOPER',
+    payload: name,
+  };
+};
+
+export const actionSetLogin = (isLogin) => {
+  return {
+    type: 'SET_LOGIN',
+    payload: isLogin,
+  };
+};
+
+export const actionSeterror = (error) => {
+  return {
+    type: 'SET_ERROR',
+    payload: error,
+  };
+};

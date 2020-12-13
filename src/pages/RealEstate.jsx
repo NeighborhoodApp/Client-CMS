@@ -1,38 +1,46 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
-import { getQueryParams } from '../helpers/getUrlQuery';
+import { actionSelectedDeveloper, actionSeterror, actionStage } from '../store/actions';
+import Swal from 'sweetalert2';
+import Preloading from '../components/preloading';
+import errorHandler from '../helpers/errorHandler';
 
+let loaded = false;
 export default function RealEstate(props) {
-  const { params, url } = useRouteMatch();
   const { id } = props.data;
-  // const id = props.id || params.id;
-  // const apiUrl = id ? `developers/${id}` : `real-estates`;
-  // console.log(window.location.href);
   const dispatch = useDispatch();
   const parameter = { url: `developers/${id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
-  // console.log(params);
+
   useEffect(() => {
     dispatch(fetchData(parameter));
+    loaded = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { dev_estates } = useSelector((state) => state.reducerDeveloper);
+  const { dev_estates, stage, loading, error } = useSelector((state) => state.reducerDeveloper);
 
-  const icon = () => {
-    return <i className="fas fa-building "></i>;
-  };
+  if (loaded && !loading) {
+    // dispatch(actionSelectedDeveloper(dev_estates.name));
+    loaded = false;
+  }
 
-  console.log('dev_estates', dev_estates);
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Real Estate has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
 
-  // const realEstates = id ? (dev_estates ? dev_estates.RealEstates : []) : dev_estates;
-  const realEstates = dev_estates ? dev_estates.RealEstates : [];
+  if (error) {
+    const msg = errorHandler(error);
+    Swal.fire('Warning!', msg, 'error');
+    dispatch(actionSeterror(null));
+  }
 
   const dataPage = {
-    count: (realEstates ? realEstates.length : 0) + ' Real Estate',
-    icon: icon(),
+    count: (dev_estates ? dev_estates.RealEstates.length : 0) + ' Real Estate',
+    msg: dev_estates ? dev_estates.name : '',
     pageTitle: 'Real Estate',
     btnTitle: 'Add Real Estate',
     btnAction: `/real-estates/${id}/add`,
@@ -40,6 +48,7 @@ export default function RealEstate(props) {
 
   return (
     <>
+      {loading ? <Preloading /> : null}
       <header className="bg-white shadow z-50">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <Heading data={dataPage} />
@@ -100,18 +109,25 @@ export default function RealEstate(props) {
                         </tr>
                       </thead>
                       <tbody className="bg-white divide-y divide-gray-200">
-                        {dev_estates
-                          ? realEstates.map((el, i) => {
+                        {dev_estates ? (
+                          dev_estates.RealEstates.length < 1 ? (
+                            <tr>
+                              <td colspan="7" className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">Real Estate not found</div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          ) : (
+                            dev_estates.RealEstates.map((el, i) => {
                               return (
-                                <BodyDevEstates
-                                  key={el.id}
-                                  number={i + 1}
-                                  RealEstate={el}
-                                  devName={id ? dev_estates.name : el.Developer.name}
-                                />
+                                <BodyDevEstates key={el.id} number={i + 1} RealEstate={el} devName={dev_estates.name} />
                               );
                             })
-                          : null}
+                          )
+                        ) : null}
                       </tbody>
                     </table>
                   </div>

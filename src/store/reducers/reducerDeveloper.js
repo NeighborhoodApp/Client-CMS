@@ -10,6 +10,9 @@ const INIT = {
   search: false,
   msg: '',
   admin: null,
+  stage: null, // delete, post, update
+  selectedDeveloper: null, // Developer name
+  isLogedIn: false,
 };
 
 function reducer(state = INIT, action) {
@@ -29,19 +32,30 @@ function reducer(state = INIT, action) {
       return { ...state, complex_admin: action.payload };
     case 'SET_ADMIN':
       return { ...state, admin: action.payload };
-    case 'SET_DEVELOPER_LOADING':
-    case 'SET_DEV_ESTATE_LOADING':
-    case 'ADD_DEVELOPER_LOADING':
-    case 'SET_ESTATE_COMPLEX_LOADING':
-    case 'SET_COMPLEX_ADMIN_LOADING':
-    case 'SET_ADMIN_LOADING':
+    case 'SET_LOGIN':
+      return { ...state, isLogedIn: action.payload };
+    case 'DELETE_DEVELOPER':
+      let tempDev = [...state.developers];
+      console.log(action.payload);
+      const newData = tempDev.filter((el) => el.id !== action.payload);
+      return { ...state, developers: newData, stage: 'delete' };
+    case 'DELETE_REAL_ESTATE':
+      let tempEstate = JSON.parse(JSON.stringify(state.dev_estates));
+      const RealEstates = tempEstate.RealEstates.filter((el) => el.id !== action.payload);
+      tempEstate.RealEstates = RealEstates;
+      return { ...state, dev_estates: tempEstate, stage: 'delete' };
+    case 'DELETE_COMPLEX':
+      let tempComplex = JSON.parse(JSON.stringify(state.estate_complex));
+      const Complexes = tempComplex.Complexes.filter((el) => el.id !== action.payload);
+      tempComplex.Complexes = Complexes;
+      return { ...state, estate_complex: tempComplex, stage: 'delete' };
+    case 'SELECTED_DEVELOPER':
+      return { ...state, selectedDeveloper: action.payload };
+    case 'SET_STAGE':
+      return { ...state, stage: action.payload };
+    case 'SET_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_DEVELOPER_ERROR':
-    case 'SET_DEV_ESTATE_ERROR':
-    case 'ADD_DEVELOPER_ERROR':
-    case 'SET_ESTATE_COMPLEX_ERROR':
-    case 'SET_COMPLEX_ADMIN_ERROR':
-    case 'SET_ADMIN_ERROR':
+    case 'SET_ERROR':
       return { ...state, error: action.payload };
     case 'SET_DEVELOPER_FILTER':
       return { ...state, filter: action.payload };
