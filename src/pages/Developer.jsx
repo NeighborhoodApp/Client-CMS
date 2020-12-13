@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
 import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
@@ -9,13 +8,11 @@ import { actionStage } from '../store/reducers/action';
 
 export default function Developer() {
   const dispatch = useDispatch();
-  
-  // const { url, params: x, path } = useRouteMatch();
-  // console.log('route', query.get('nama'));
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPERS' };
 
   useEffect(() => {
     dispatch(fetchData(params));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
   const { developers, stage, loading } = useSelector((state) => state.reducerDeveloper);

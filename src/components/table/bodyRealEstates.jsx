@@ -1,11 +1,15 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import { useRouteMatch } from 'react-router-dom';
+import Swal from 'sweetalert2';
+import fetchData from '../../helpers/fetchData';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 
 export default function BodyDevEstates(props) {
   const { RealEstate, devName, number } = props;
   const history = useHistory();
+  const dispatch = useDispatch();
   const { url } = useRouteMatch();
 
   const href = getCurrentUrl();
@@ -16,6 +20,30 @@ export default function BodyDevEstates(props) {
 
   const hanldeDelete = (id) => {
     console.log('delete' + id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        prosesDelete(id);
+      }
+    });
+  };
+
+  const prosesDelete = async (id) => {
+    const params = {
+      url: `real-estates/${id}`,
+      method: 'DELETE',
+      headers: true,
+      type: 'DELETE_REAL_ESTATE',
+      deletedId: id,
+    };
+    dispatch(fetchData(params));
   };
 
   return (

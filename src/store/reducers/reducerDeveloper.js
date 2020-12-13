@@ -35,6 +35,12 @@ function reducer(state = INIT, action) {
       console.log(action.payload);
       const newData = tempDev.filter((el) => el.id !== action.payload);
       return { ...state, developers: newData, stage: 'delete' };
+    case 'DELETE_REAL_ESTATE':
+      let tempEstate = JSON.parse(JSON.stringify(state.dev_estates));
+      // console.log(action.payload);
+      const RealEstates = tempEstate.RealEstates.filter((el) => el.id !== action.payload);
+      tempEstate.RealEstates = RealEstates;
+      return { ...state, dev_estates: tempEstate, stage: 'delete' };
     case 'SET_STAGE':
       return { ...state, stage: action.payload };
     case 'SET_LOADING':

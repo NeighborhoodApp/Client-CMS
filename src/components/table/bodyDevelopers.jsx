@@ -2,7 +2,6 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
 import Swal from 'sweetalert2';
-import { axios } from '../../config/Axios';
 import { useDispatch } from 'react-redux';
 import fetchData from '../../helpers/fetchData';
 
@@ -18,7 +17,6 @@ export default function BodyDevelopers(props) {
   };
 
   const hanldeDelete = (id, name) => {
-    // console.log('delete' + id);
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -43,16 +41,6 @@ export default function BodyDevelopers(props) {
       deletedId: id,
     };
     dispatch(fetchData(params));
-    // const { data } = await axios({
-    //   url: `developers/${id}`,
-    //   method: 'DELETE',
-    //   headers: {
-    //     access_token: localStorage.getItem('access_token'),
-    //   },
-    // });
-    // if (data) {
-    //   Swal.fire('Deleted!', `Developer "<b>${name}</b>" has been deleted`, 'success');
-    // }
   };
 
   const avatar = (name) => {

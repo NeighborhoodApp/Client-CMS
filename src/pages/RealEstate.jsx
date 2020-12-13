@@ -1,25 +1,27 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouteMatch } from 'react-router-dom';
 import Heading from '../components/heading';
 import BodyDevEstates from '../components/table/bodyRealEstates.jsx';
 import fetchData from '../helpers/fetchData';
-import { getQueryParams } from '../helpers/getUrlQuery';
+import { actionStage } from '../store/reducers/action';
+import Swal from 'sweetalert2';
 
 export default function RealEstate(props) {
-  const { params, url } = useRouteMatch();
   const { id } = props.data;
-  // const id = props.id || params.id;
-  // const apiUrl = id ? `developers/${id}` : `real-estates`;
-  // console.log(window.location.href);
   const dispatch = useDispatch();
   const parameter = { url: `developers/${id}`, method: 'GET', headers: true, type: 'SET_DEV_ESTATE' };
-  // console.log(params);
+
   useEffect(() => {
     dispatch(fetchData(parameter));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const { dev_estates } = useSelector((state) => state.reducerDeveloper);
+  const { dev_estates, stage, loading } = useSelector((state) => state.reducerDeveloper);
+
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Real Estate has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
 
   const icon = () => {
     return <i className="fas fa-building "></i>;
