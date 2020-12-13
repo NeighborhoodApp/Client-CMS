@@ -26,8 +26,8 @@ function App() {
     <Provider store={store}>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/developers/:id/addrealestate">
+        <Route exact path="/" component={Developer} />
+        {/* <Route path="/developers/:id/addrealestate">
           <AddRealEstate />
         </Route>
         <Route path="/developers/:id/editrealestate/:realEsttateId">
@@ -47,7 +47,7 @@ function App() {
         </Route>
         <Route path="/developers/:id/:realEstedId">
           <Complex />
-        </Route>
+        </Route> */}
         <Route path="/developers/add">
           <AddDeveloper />
         </Route>

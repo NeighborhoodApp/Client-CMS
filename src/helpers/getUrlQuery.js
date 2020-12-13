@@ -4,6 +4,19 @@ export function getCurrentUrl() {
   return href;
 }
 
+export function getBackUrl() {
+  let url = window.location.pathname;
+  // const path = window.location.pathname;
+  const href = getCurrentUrl();
+  const params = href.substr(url.length + 1);
+  const arr = params.split('&');
+  arr.pop();
+  if (arr.length > 0) {
+    url = `${url}?${arr.join('&')}`;
+  }
+  return url;
+}
+
 export function setHistory(url) {
   localStorage.setItem('urlFrom', url);
 }

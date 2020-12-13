@@ -1,28 +1,30 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+// import { useLocation, useRouteMatch } from 'react-router-dom/cjs/react-router-dom.min';
+import Swal from 'sweetalert2';
 import Heading from '../components/heading';
 import BodyDevelopers from '../components/table/bodyDevelopers.jsx';
 import fetchData from '../helpers/fetchData';
-import { clearDeveloper } from '../helpers/setData';
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
+import { actionStage } from '../store/reducers/action';
 
 export default function Developer() {
   const dispatch = useDispatch();
-  let query = useQuery();
   
   // const { url, params: x, path } = useRouteMatch();
   // console.log('route', query.get('nama'));
   const params = { url: 'developers', method: 'GET', headers: true, type: 'SET_DEVELOPERS' };
 
   useEffect(() => {
-    clearDeveloper();
     dispatch(fetchData(params));
   }, []);
   
-  const { developers } = useSelector((state) => state.reducerDeveloper);
+  const { developers, stage, loading } = useSelector((state) => state.reducerDeveloper);
+
+  if (stage === 'delete' && !loading) {
+    Swal.fire('Deleted!', `Developer has been deleted`, 'success');
+    dispatch(actionStage(null));
+  }
+
   const icon = () => {
     return <i className="fas fa-building "></i>;
   };

@@ -22,15 +22,16 @@ export default function fetchData(option) {
   return async (dispatch) => {
     // console.log(payloadAxios);
     try {
-      dispatch({ type: option.type + '_LOADING', payload: true });
+      dispatch({ type: 'SET_LOADING', payload: true });
       const { data } = await axios(payloadAxios);
       console.log(data);
-      dispatch({ type: option.type, payload: option.id ? option.id : data });
+      dispatch({ type: option.type, payload: option.id ? option.id : option.deletedId ? option.deletedId : data });
     } catch (error) {
+      console.log(error);
       console.log(error.response);
-      dispatch({ type: option.type + '_ERROR', payload: error });
+      dispatch({ type: 'SET_ERROR', payload: error });
     } finally {
-      dispatch({ type: option.type + '_LOADING', payload: false });
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
 }

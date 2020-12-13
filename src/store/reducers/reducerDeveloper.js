@@ -10,6 +10,7 @@ const INIT = {
   search: false,
   msg: '',
   admin: null,
+  stage: null, // delete, post, update
 };
 
 function reducer(state = INIT, action) {
@@ -29,19 +30,16 @@ function reducer(state = INIT, action) {
       return { ...state, complex_admin: action.payload };
     case 'SET_ADMIN':
       return { ...state, admin: action.payload };
-    case 'SET_DEVELOPER_LOADING':
-    case 'SET_DEV_ESTATE_LOADING':
-    case 'ADD_DEVELOPER_LOADING':
-    case 'SET_ESTATE_COMPLEX_LOADING':
-    case 'SET_COMPLEX_ADMIN_LOADING':
-    case 'SET_ADMIN_LOADING':
+    case 'DELETE_DEVELOPER':
+      let tempDev = [...state.developers];
+      console.log(action.payload);
+      const newData = tempDev.filter((el) => el.id !== action.payload);
+      return { ...state, developers: newData, stage: 'delete' };
+    case 'SET_STAGE':
+      return { ...state, stage: action.payload };
+    case 'SET_LOADING':
       return { ...state, loading: action.payload };
-    case 'SET_DEVELOPER_ERROR':
-    case 'SET_DEV_ESTATE_ERROR':
-    case 'ADD_DEVELOPER_ERROR':
-    case 'SET_ESTATE_COMPLEX_ERROR':
-    case 'SET_COMPLEX_ADMIN_ERROR':
-    case 'SET_ADMIN_ERROR':
+    case 'SET_ERROR':
       return { ...state, error: action.payload };
     case 'SET_DEVELOPER_FILTER':
       return { ...state, filter: action.payload };

@@ -1,22 +1,58 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { getCurrentUrl, setHistory } from '../../helpers/getUrlQuery';
-import { setDeveloper } from '../../helpers/setData';
+import Swal from 'sweetalert2';
+import { axios } from '../../config/Axios';
+import { useDispatch } from 'react-redux';
+import fetchData from '../../helpers/fetchData';
 
 export default function BodyDevelopers(props) {
   const { developer } = props;
   const history = useHistory();
   const href = getCurrentUrl();
-  const hanldeClick = (path, detail = false) => {
-    if (detail) {
-      setDeveloper({ developer: developer.name, devId: developer.id });
-    }
+  const dispatch = useDispatch();
+
+  const hanldeClick = (path) => {
     setHistory(href);
-    history.push(path);
+    history.push(path, { from: href });
   };
 
-  const hanldeDelete = (id) => {
-    console.log('delete' + id);
+  const hanldeDelete = (id, name) => {
+    // console.log('delete' + id);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        prosesDelete(id, name);
+      }
+    });
+  };
+
+  const prosesDelete = async (id, name) => {
+    const params = {
+      url: `developers/${id}`,
+      method: 'DELETE',
+      headers: true,
+      type: 'DELETE_DEVELOPER',
+      deletedId: id,
+    };
+    dispatch(fetchData(params));
+    // const { data } = await axios({
+    //   url: `developers/${id}`,
+    //   method: 'DELETE',
+    //   headers: {
+    //     access_token: localStorage.getItem('access_token'),
+    //   },
+    // });
+    // if (data) {
+    //   Swal.fire('Deleted!', `Developer "<b>${name}</b>" has been deleted`, 'success');
+    // }
   };
 
   const avatar = (name) => {
@@ -59,20 +95,20 @@ export default function BodyDevelopers(props) {
         <td className="px-6 py-4 whitespace-nowrap">
           <div className="flex w-auto justify-start">
             <button
-              onClick={() => hanldeClick(`${href}/${developer.id}/edit`)}
+              onClick={() => hanldeClick(`developers/${developer.id}/edit`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-blue-500 hover:shadow-inner focus:outline-none hover:bg-blue-700 transition-all duration-300"
             >
               <span>Edit</span>
             </button>
             <button
               // onClick={() => hanldeClick('developers/' + developer.id)}
-              onClick={() => hanldeClick(`${href}?id=${developer.id}`, true)}
+              onClick={() => hanldeClick(`developers?id=${developer.id}`)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-purple-500 hover:shadow-inner focus:outline-none hover:bg-purple-700 transition-all duration-300"
             >
               <span>Detail</span>
             </button>
             <button
-              onClick={() => hanldeDelete(developer.id)}
+              onClick={() => hanldeDelete(developer.id, developer.name)}
               className="rounded text-gray-100 mx-1 px-3 py-1 bg-red-500 hover:shadow-inner focus:outline-none hover:bg-red-700 transition-all duration-300"
             >
               <span>Delete</span>
