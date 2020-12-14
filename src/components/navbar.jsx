@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import Logo from '../logo.svg';
 import Avatar from '../images/avatar.png';
+import { actionSetLogin } from '../store/actions';
 
 export default function Navbar() {
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [usermenuOpen, setUsermenuOpen] = useState(false);
   const [isLogedIn, setIslogedIn] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const handlePage = (e, path) => {
     e.preventDefault();
     history.push(path);
   };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatch(actionSetLogin(true));
+    setIslogedIn(false);
+    setUsermenuOpen(!usermenuOpen);
+  };
+
   const { isLogedIn: activeNow } = useSelector((state) => state.reducerDeveloper);
 
   useEffect(() => {
+    console.log('navbar', isLogedIn, activeNow);
     if (!isLogedIn) {
       const token = localStorage.getItem('access_token');
       if (token) {
@@ -27,7 +38,7 @@ export default function Navbar() {
 
   const avatar = isLogedIn ? `https://avatars.dicebear.com/api/avataaars/${'riyan'}.svg?mood[]=happy` : Avatar;
   
-  if (!isLogedIn && !activeNow) return <div></div>;
+  if (!isLogedIn) return <div></div>;
 
   return (
     <div>
@@ -130,11 +141,7 @@ export default function Navbar() {
                     </NavLink> */}
 
                     <NavLink
-                      onClick={() => {
-                        localStorage.clear();
-                        setUsermenuOpen(!usermenuOpen);
-                        setIslogedIn(false);
-                      }}
+                      onClick={() => handleLogout()}
                       to="/login"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       role="menuitem"
