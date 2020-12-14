@@ -25,6 +25,7 @@ export default function FormWarga(props) {
   const urlIndex = url.split('/');
   const formType = urlIndex.pop();
   const [loading, setLoading] = useState(false);
+  const [msgError, setMsgError] = useState(null);
   const back = getHistory();
   const userId = params.id;
 
@@ -106,6 +107,7 @@ export default function FormWarga(props) {
       }
     } catch (error) {
       const msg = errorHandler(error);
+      setMsgError(msg);
       console.log(msg);
     } finally {
       setLoading(false)
@@ -127,9 +129,10 @@ export default function FormWarga(props) {
       <form onSubmit={(e) => submitForm(e)} method="post">
         <div className="w-4/5 lg:w-3/6 bg-white shadow mx-auto mb-10 mt-10 rounded-lg p-6">
           <div className="grid lg:grid-cols-1 gap-6">
-            <div className="border-b mb-6 pb-3">
+            <div className="border-b pb-3">
               <h1 className="text-lg font-semibold text-2xl">{formTitle}</h1>
             </div>
+            {!msgError ? null : <h1 className="text-sm text-xs text-red-500">{msgError}</h1>}
             <div className="border focus-within:border-blue-500 focus-within:text-blue-500 transition-all duration-500 relative rounded p-1">
               <div className="-mt-4 absolute tracking-wider px-1 uppercase text-xs">
                 <p>
