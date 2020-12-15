@@ -82,11 +82,11 @@ export default function FormRealEstate(props) {
     const coordinate = `${latitude},${longtitude}`;
     const newPayload = { name, address, coordinate, DeveloperId, status };
     console.log(newPayload);
-    // if (payload.coordinate && payload.address && payload.name) {
-    //   prosesSubmit(newPayload);
-    // } else {
-    //   console.error('All field required');
-    // }
+    if (coordinate && payload.address && payload.name) {
+      prosesSubmit(newPayload);
+    } else {
+      console.error('All field required');
+    }
   };;
 
   const prosesSubmit = async (payload) => {
