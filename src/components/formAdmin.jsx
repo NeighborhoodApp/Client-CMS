@@ -150,7 +150,7 @@ export default function FormWarga(props) {
                   type="text"
                   autoComplete="off"
                   onChange={(e) => handleForm(e)}
-                  placeholder="Complex Name"
+                  placeholder="Full Name"
                   className="py-1 px-1 outline-none block h-full w-full"
                   required
                 />

@@ -3,6 +3,7 @@ import { axios } from '../config/Axios';
 import { useHistory } from 'react-router-dom';
 import errorHandler from '../helpers/errorHandler';
 import saveUserInfo from '../helpers/userLocals';
+import logo from '../images/logo.png';
 
 export default function Login() {
   const [payload, setPayload] = useState({ email: '', password: '' });
@@ -58,8 +59,8 @@ export default function Login() {
         <div className="max-w-md w-full space-y-8">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+              className="mx-auto h-24 w-auto"
+              src={logo}
               alt="Workflow"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to system</h2>
